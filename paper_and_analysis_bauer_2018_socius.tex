@@ -1,0 +1,485 @@
+\documentclass[12pt,]{article}
+\usepackage{lmodern}
+\usepackage{setspace}
+\setstretch{1.2}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+    \setmainfont[]{Wingdings}
+    \setsansfont[]{Wingdings}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
+\hypersetup{unicode=true,
+            pdfauthor={Paul C. Bauer},
+            colorlinks=true,
+            linkcolor=Maroon,
+            citecolor=Blue,
+            urlcolor=Blue,
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Unemployment, Trust in Government\\
+and Satisfaction with Democracy:\\
+An Empirical Investigation*\footnote{Acknowledgements: I thank the participants of the Swiss Political Science Conference 2016, the annual conference for the European Political Science Association 2015, Hanspeter Kriesi, Stefanie Reher, Jonathan Chapman, Florian Stöckel and anonymous reviewers for their helpful comments. I am also grateful to Giada Gianola for excellent research assistance. Reproduction files and data can be accessed under \url{http://dx.doi.org/10.7910/DVN/DUMGLT}. This study has been realized using data collected by the Swiss Household Panel (SHP), which is based at the Swiss Centre of Expertise in the Social Sciences FORS and financed by the Swiss National Science Foundation as well as data from the LISS (Longitudinal Internet Studies for the Social sciences) panel, administered by CentERdata (Tilburg University, The Netherlands). The publication of this article was funded by the ``Mannheim Centre for European Social Research''. Corresponding Author: \href{mailto:mail@paulcbauer.eu}{\nolinkurl{mail@paulcbauer.eu}}, University Mannheim, Mannheim Centre for European Social Research (MZES), 68131 Mannheim Germany, \url{http://www.paulcbauer.eu}.}}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Paul C. Bauer}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+    \date{}
+    \predate{}\postdate{}
+  
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{array}
+\usepackage{setspace}
+\usepackage{graphics}
+%\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{longtable}
+\usepackage{natbib}
+\usepackage{pdflscape}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fullpage}
+\usepackage{multicol}
+\usepackage{dcolumn}
+\usepackage{lscape}
+\usepackage{array}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{cleveref}[2012/02/15]
+\usepackage{fullpage}
+\usepackage[charter]{mathdesign}
+\usepackage{bm}
+
+
+\crefformat{footnote}{#2\footnotemark[#1]#3}
+\usepackage{color}
+\usepackage{hyperref}
+
+\newenvironment{tightcenter}{%
+  \setlength\topsep{0pt}
+  \setlength\parskip{0pt}
+  \begin{center}
+}{%
+  \end{center}
+}
+
+%\setstretch{1.1}
+% Dutch style of paragraph formatting
+\parskip 5pt
+\makeatletter
+% Separation between lines
+\doublerulesep 1pt
+
+\usepackage[table]{xcolor}
+
+\definecolor{lightred}{rgb}{0.7,0,0}
+\definecolor{darkgreen}{rgb}{0,0.8,0}
+\definecolor{lightblue}{rgb}{0,0,0.7}
+
+\hypersetup{colorlinks,
+  linkcolor = lightred,
+  filecolor = lightred,
+  urlcolor = lightblue,
+  citecolor = lightred}
+
+% Spaces in bibliography
+\let\oldthebibliography=\thebibliography
+\let\endoldthebibliography=\endthebibliography
+\renewenvironment{thebibliography}[1]{%
+  \begin{oldthebibliography}{#1}%
+    \setlength{\parskip}{0ex}%
+    \setlength{\itemsep}{0.1ex}%
+  }%
+  {%
+  \end{oldthebibliography}%
+}
+
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\setlength{\parindent}{0pt} % no indentation
+
+\begin{document}
+\maketitle
+\begin{abstract}
+\noindent\setstretch{1}Evidence suggests that unemployment negatively affects various aspects of individuals' lives. We investigate whether unemployment changes individuals' political evaluations in the form of trust in government and satisfaction with democracy. While most research in this area operates on the macro level, we provide individual-level evidence. In doing so, we investigate the assumed causal link with panel data from Switzerland and the Netherlands. In addition, we study the impact on life satisfaction, a `control outcome', known to be affected by unemployment. While there is strong evidence that changes in employment status do affect life satisfaction, effects on trust in government and satisfaction with democracy seem mostly absent or negligible in size. \vspace{.8cm}
+\end{abstract}
+
+\newcommand*{\secref}[1]{Section~\ref{#1}}
+
+\setlength{\tabcolsep}{2pt}
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Trust in government and more generally satisfaction with democracy are regarded as indicators of the stability and performance of democratic systems but also as important determinants thereof (Almond and Verba 1963; Easton 1975; Pharr and Putnam 2000; Dalton 2004; Hetherington 2005; Levi and Stoker 2000). Especially in the wake of the economic crisis in 2008, scholars rang the alarm bells and pointed to the threat that rising unemployment levels may pose to democratic systems (Arias et al. 2013; Kroknes, Jakobsen, and Grønning 2015; Muro and Vidal 2014; Roth 2009). While most research focuses on unemployment's negative personal consequences such as depression or suicidal tendencies, there is also a long research tradition that links it to political phenomena such as voting behavior and political extremism (e.g. Jahoda and Zeisel 1974; Bay and Blekesaune 2002; Lundin and Hemmingsson 2009; Falk, Kuhn, and Zweimueller 2011; Siedler 2006; Linn, Sandifer, and Stein 1985; Stokes and Cochrane 1984). This research program, in part, speaks to the classic debate that contrasts pocketbook voters whose preferences are assumed to be ``swayed most of all by the immediate and tangible circumstances of their private lives'' (Kinder and Roderick Kiewiet 1981, 130), and sociotropic voters whose preferences are influenced by a country's economic condition (Kinder and Roderick Kiewiet 1981, 129--30; Hansford and Gomez 2015).\\
+The present study is guided by the following question: \emph{Does unemployment affect political evaluations in the form of trust in government and satisfaction with democracy?} We contribute to current scholarship in several ways. First, while the classic pocketbook vs.~sociotropic voter debate focuses on voting behavior, we investigate the link between unemployment and political evaluations, i.e.~trust in government and satisfaction with democracy (e.g. Kinder and Roderick Kiewiet 1981; Hansford and Gomez 2015). Both are regarded as essential resources for the performance and stability of political systems (e.g. Hetherington 1998; Levi and Stoker 2000). We thereby contribute to a growing literature that investigates this link empirically (e.g. Arias et al. 2013; Kroknes, Jakobsen, and Grønning 2015; Muro and Vidal 2014; Roth 2009). We summarize previous arguments and empirical evidence, and provide an overview of what we know so far.\\
+Second, empirical evidence on this relationship is limited. It is either U.S.-centered, comparative in nature, or characterized by certain shortcomings. While unemployment regularly appears as a control variable in multivariate models (Armingeon and Ceka 2014; Armingeon and Guthmann 2014; Mishler and Rose 2001; Foster and Frieden 2017), few studies focus on it as a principal cause, and if so, they operate on the group level comparing either countries or cohorts (Arias et al. 2013; Roth, Nowak-Lehmann, and Otter 2011). Here, we focus on the impact of direct, individual-level experiences of unemployment.\footnote{Laurence (2015) uses a similar approach but focuses on its impact on generalized trust. Similarly, Margalit (2013) and Naumann, Buss, and Bähr (2016) investigate the impact of unemployment on social policy preferences.} Our study provides a stronger set of evidence in that it expands macro-level evidence with evidence on the individual level and focuses on causal identification. In doing so, we rely on panel data which allows us to investigate the impact of individual-level changes in employment status on individual-level changes in political evaluations. We study this relationship on the basis of data from two different European countries, Switzerland and the Netherlands. This choice is linked both to data availability -- we can rely on high-quality panel surveys that contain the necessary measures -- and to the fact that we expect less crisis-induced distortions in those countries.\\
+Third, we also examine the effect of unemployment on a control outcome -- life satisfaction. This additional analysis allows us to ensure that our findings are not merely a result of the design choices we made. By showing that our design identifies short-term effects of unemployment on life satisfaction, we alleviate concerns that it may be too conservative to study effects on trust in government or satisfaction with democracy.
+We proceed as follows: Section \protect\hyperlink{sec:theory}{2} outlines arguments and empirical evidence that link unemployment and political evaluations. Section \protect\hyperlink{sec:data}{3} presents the design, data and measures. Section \protect\hyperlink{sec:results}{4} summarizes the results. Section \protect\hyperlink{sec:conclusion}{5} provides a summary, discusses limitations and provides rationales for future research.
+
+\hypertarget{sec:theory}{%
+\section{Theory, hypotheses and empirical evidence}\label{sec:theory}}
+
+In this study, we link short-term unemployment to political evaluations.\footnote{While the effects of long-term unemployment are just as relevant (e.g. European Commission 2012), panel surveys generally include too few observations of long-term unemployed respondents to study them in a meaningful way.} Various studies have pointed to direct and indirect mechanisms that connect unemployment to political evaluations (Ahn, Garcia, and Jimeno 2004; Chabanet 2007; Hudson 2006; Newton and Zmerli 2011). First, we may argue that there is a direct causal path. Let's assume that A loses her job. Given that A blames the government or the political system in general, we would assume that A's support for these same institutions decreases (Hudson 2006, 59; Mishler and Rose 2005). Following this idea, it is argued that job ``{[}d{]}isplacement may erode institutional-based trust in employers and the economic sphere in general'' (Laurence 2015, 47).\footnote{Laurence (2015, 48) suggests that the a potential effect of unemployment on generalised trust is mediated by individuals' institutional trust. See also Delhey and Newton (2003), Misztal (2001), Perrucci and Perrucci (2009) and Uslaner (2002).} While we would expect stronger effects for evaluations of government, people may very well translate their frustration into dissatisfaction with a political system in general.\\
+Second, there may be various indirect causal paths: becoming unemployed leads to other events that in turn may affect someone's political evaluations. To start, unemployed individuals encounter and experience various institutions that assess their right to benefits and assist them in finding a new job. Those institutions often demand a lot of engagement on the part of the unemployed. Negative experiences with such lower-level institutions (e.g.~an employment office) may spill over into one's overall evaluation of political institutions. Unemployment is also linked to various other negative outcomes, i.e.~it is supposed to lead to a loss of identity and self-esteem, to a feeling of marginalization or to decrease life satisfaction, optimism, personal efficacy, political participation and to increase stress, anxiety about the future and depression (Ahn, Garcia, and Jimeno 2004; Archer and Rhodes 1993; Chabanet 2007; Leana and Feldman 1992; Goldsmith, Veum, and Darity 1996; Laurence 2015; Linn, Sandifer, and Stein 1985; Rantakeisu, Starrin, and Hagquist 1997; Scott and Acock 1979; Waters 2007; Winkelmann and Winkelmann 1998; Zawadzki and Lazarsfeld 1935, 235). These outcomes in turn may affect political evaluations such as trust in government/satisfaction with democracy. For instance, as depression changes the outlook on life more generally, it should also affect the evaluation of political objects negatively. Overall, these various mechanisms lead to a first hypothesis: \emph{unemployment has a negative effect on trust in government and satisfaction with democracy (\(H_{1}\))}.\\
+At the same time, the above arguments hinge on certain assumptions, the rejection of which leads to an alternative hypothesis. In what concerns the direct effect described, it really hinges on the assumption that someone who becomes unemployed blames the political system or specific institutions for his misfortune. In other words, if someone does not draw the connection between his personal situation and the government/political system, this explanation loses validity. It is also possible that the blame is directed at other actors, e.g.~economic actors.\\
+Second, states make various efforts to cope with the problem of unemployment and implement policies as well as special programs to simplify the reinsertion in the labor market. Fighting unemployment is one of governments' most important tasks (Cezanne 2005, 275). Someone who loses his job is not left alone, but rather helped by the state in many ways, especially in developed countries. If unemployed persons feel that the political institutions are on their side and help them, their political evaluations should either not change at all or possibly in a positive direction (Roth 2009). These arguments lead to an alternative hypothesis: \emph{unemployment has no effect on trust in government and satisfaction with democracy (\(H_{0}\)).}\\
+While the causal pathways described above are hardly testable without the necessary fine-grained data, they provide feasible stories for both \(H_{1}\) and \(H_{0}\). Similarly, empirical evidence is inconsistent and supports both hypotheses. A first study analyses the General Social Survey 1972-79 with pooled cross-sectional models, introduces unemployment as one of many variables in a structural equation model and yields the following conclusion (Brehm and Rahn 1997, 1016): ``as aggregate unemployment and inflation fall, and economic expectations rise, confidence in federal institutions also rise''. Another study investigates data from the Eurobarometer and the Latinobarometer, uses cohorts as unit of analysis and concludes that the relationship between employment and trust depends on context: increases in cyclical unemployment precede decreases in trust among Europeans, but the opposite seems true among Latin Americans (Arias et al. 2013). A third study investigates how the financial crisis of 2009 and its consequences affected political trust. Analyzing data from the Eurobarometer, the authors investigate 27 EU countries and find that declines in trust in government are related to an increase in unemployment especially in the EU-15 countries (Roth, Nowak-Lehmann, and Otter 2011). A study of the origins of political trust in Post-Communist societies relies on data from the New Democracies Barometer V and the New Russia Barometer VII. It concludes that the ``recent experience of unemployment also significantly reduces political trust, but its effect are weak and add little to the overall explanation of trust'' (Mishler and Rose 2001, 52). Finally, a study relying on the Eurobarometer, examines the decline of political satisfaction and trust towards parliament in 26 European countries. Unemployment is added as a control variable and has a negative effect on both satisfaction and political trust (Armingeon and Guthmann 2014, 434).
+
+\hypertarget{sec:data}{%
+\section{Data, measures and design}\label{sec:data}}
+
+We investigate three outcomes: \emph{trust in government}, \emph{satisfaction with democracy} and \emph{life satisfaction}. While we lack strong evidence that causally links unemployment and the former two outcomes, there is convincing evidence that unemployment affects life satisfaction negatively (cf. Winkelmann and Winkelmann 1998). Therefore, we use the latter as `control outcome' to validate our design.\\
+The data comes from two panel surveys collected in Switzerland and the Netherlands. We restrict our sample to individuals of working age between 18 and 65 years who can potentially experience a period of unemployment. Both countries show comparably low levels of unemployment within Europe. In the first quartile of 2017, the unemployment rate (national definition) in both countries was at 5.3 percent (OECD 2017b), the more comparable harmonized unemployment rate (HUR) was at 4.9 percent in Switzerland and at 6.7 percent in the Netherlands (OECD 2017a). Moreover, both countries were among those that weathered the economic crisis relatively well. While unemployment skyrocketed in countries such as Greece or Spain, the increases in Switzerland and the Netherlands were much lower in comparison (OECD 2017a). Both countries' electoral systems can be classified as proportional; however, there are various institutional differences. Such institutional differences may, in principle, be responsible for any differences we find between the two countries. For instance, Switzerland is characterized by extensive direct democratic institutions and rights compared to the Netherlands, were the barriers to such forms of participation are higher. In other words, if we were to observe significantly different results across those two datasets, institutional factors may lay at the origin of those differences.\\
+First, we use data from the \emph{Swiss Household Panel Study (SHP)}, which follows a random sample of households in Switzerland over time by means of computer-assisted telephone interviewing. The SHP started in 1999 with 5,074 households/12,931 household members. In 2004, a second sample of 2,538 households/6,569 household members was added. Second, we rely on the \emph{Longitudinal Internet Studies for the Social Sciences (LISS)}, which is the only other panel study to our knowledge that contains the measures we require. The LISS is based on a random sample of Dutch households drawn from the population register. It consists of 5000 households comprising 8000 household members. Monthly data have been collected by online questionnaires of about 15 to 30 minutes since October 2007. One member in the household provides the household data and updates this information at regular intervals. As described above, both Switzerland and the Netherlands are characterized by rather low rates of unemployment. Table \ref{table-1} gives an overview of the distribution of unemployment in our samples across time.
+
+\input{./table-1.tex}
+
+\input{./table-2.tex}
+
+The measures for both outcomes and treatment are similar across the SHP and the LISS. Table \ref{table-2} gives an overview of the panel waves that contain our measures.\\
+In the \emph{SHP}, our outcomes are measured as follows: Beginning with the first wave in 1999 (with the exception of 2010), respondents were asked both a trust question and a satisfaction-with-democracy question: ``\emph{How much confidence do you have in {[}The Federal Government (in Bern){]}, if 0 means `no confidence' and 10 means `full confidence'?}'' and ``\emph{Overall, how satisfied are you with the way in which democracy works in our country, if 0 means `not at all satisfied' and 10 `completely satisfied'?}'' In addition, life satisfaction was queried starting in 2000: ``\emph{In general, how satisfied are you with your life if 0 means `not at all satisfied' and 10 means `completely satisfied'?}''. Our treatment variable \texttt{Unemployed} takes the value \texttt{1} if a respondent's working status is actively occupied and is \texttt{0} if a respondent's working status is unemployed. Respondents who are not in the labor force are coded as missing. Most of the models we estimate focus on change in employment status, i.e.~the treatment group are respondents that have become unemployed, whereas the control group is made up of people that have remained employed.\footnote{As unemployment is measured in yearly intervals, a situation in which respondents become unemployed and get another job within this period can not be observed. Nevertheless, we assume that the number of such cases is relatively low. In addition, all those coded as unemployed also answered ``\emph{yes}'' to the question ``\emph{In the last four weeks, have you been looking for a job?}''. In other words, they indicated that they are actively seeking a job.}\\
+In the \emph{LISS}, our outcomes are measured as follows: beginning with the first wave in October 2007 respondents were asked to respond to questions about trust in government, satisfaction with democracy and life satisfaction. Trust in government is measured with the question ``\emph{Can you indicate, on a scale from 0 to 10, how much confidence you personally have in each of the following institutions {[}Dutch government{]}? 0 means that you have no confidence in an institution and 10 means that you have full confidence}''. Satisfaction with democracy is measured with the question ``\emph{How satisfied are you with the way in which the following institutions operate in the Netherlands? 0 means that you are very dissatisfied with how the institution operates and 10 means that you are very satisfied}'' and respondents evaluate the institution ``\emph{democracy}''. Life satisfaction is measured with the question ``\emph{How satisfied are you with the life you lead at the moment? 0 means not at all satisfied with the life you lead at the moment and 10 means you are completely satisfied}''. Apart from that, respondents are queried about their employment situation. Our treatment variable \texttt{Unemployed} takes the value \texttt{1} if a respondent indicates ``\emph{I perform paid work (even if is it just for one or several hours per week or for a brief period)}'' and it is \texttt{0} if a respondent indicates ``\emph{I am looking for work following the loss of my previous job}''. While the LISS measures are not exactly the same as in the Swiss Household Panel, they represent satisfactory proxies. Table \ref{table-2} in the appendix presents summary statistics for all variables used in the analysis.\\
+In terms of design, a major concern in investigating the link between unemployment and our outcomes are time-invariant and time-variant confounders that may affect both phenomena. Observing units at multiple points in time allows us to link the variance of within-unit changes in unemployment to the variance of within-unit changes in our outcomes of interest.\\
+We rely on models classically used to analyze panel data (Croissant, Millo, and Others 2008) but proceed with newer estimation techniques (Imai and Kim 2016).\footnote{Analyses were conducted relying on R ({\textbf{???}}), the plm R package (Croissant et al. 2017) and the wfe R package (Kim, Imai, and Wang 2017). Tables were generated using the Stargazer R package (Hlavac 2014).} First, we estimate linear models that pool the data across all units \(i\) and time periods \(t\) (Croissant, Millo, and Others 2008, 2). The estimated treatment effects represent the difference between observations of individuals who became unemployed and observations of individuals who did not. Thus, treatment and control group may comprise observations of the same individual at different points in time. We estimate those models with and without controls (see Table \ref{table-3}). The results from this first step serve as a point of reference. Second, we continue with fixed effects models (FE models). Through demeaning the data, time-invariant individual components are removed (Wooldridge 2010, 300ff; Croissant, Millo, and Others 2008, 3). Again, we estimate models with and without controls for all three outcomes (see Table \ref{table-4}).
+Third, we contrast the results from the classic FE estimation strategy with newer methods developed in Imai and Kim (2016), namely weighted linear fixed effects regression models (WFE models). We refer the reader to Imai and Kim (2016) for an elaborate discussion of the assumptions that are necessary to interpret estimates from fixed effects models as causal effects. Kim, Imai, and Wang (2017) provide the software to estimate WFE models for causal inference relying on different weighting schemes (see Table \ref{table-5}).\\
+In what concerns causality, our main concern is selection on time-invariant covariates, i.e.~stable variables that may affect both an individual's propensity to become unemployed and her political evaluations. However, time-invariant confounders cancel out of the equation in the FE and WFE models. Then there may be attributes/variables that are time-variant and affect both unemployment and trust in government/satisfaction with democracy. However, such events/changes only represent a problem, i.e.~introduce bias if they are linked to both treatment and outcome and occur among a large enough number of units in our sample. While it is difficult to come up with realistic examples of that kind, we do account for a set of variables that tend to be linked to the risk of unemployment and to trust in government/satisfaction with democracy namely age, education and organizational membership (Blackaby et al. 1999; Blundell, Ham, and Meghir 1987; Collier 2005, 144; Granovetter 1973, 1360; Mishler and Rose 2001, 49; Newton and Zmerli 2011; Putnam 2000). While the phenomena we control for are largely stable, they still do change at particular times of an individual's life. And changes in education, or particular jumps on the age scale, could be related to our treatment and outcomes. Moreover, they may also function as proxies for other non-stable phenomena, i.e.~events that affect both unemployment and political evaluations may be more likely among those with low education. Table \ref{table-6}, \ref{table-7} and \ref{table-8} in the appendix present summary statistics for all variables used in the analysis.\footnote{In principle, any conclusions we derive may be threatened by non-response bias, i.e.~the treated/non-treated in our sample may be not representative of the corresponding groups in the population, selective attrition bias, i.e.~individuals who drop out at t are systematically different in terms of treatment and outcome, and finally measurement error, e.g.~individuals who become unemployed do not reveal their status to the interviewer. We have to assume that these biases are either absent or at least not strong enough to distort our findings.}
+Apart from the effect on political evaluations, we investigate the effect of unemployment on life satisfaction. This is to safeguard that our findings are not merely a result of the design choices we made.\\
+Finally, a comment on reverse causality. We rely on data that measures both outcome and treatment at the beginning/end of yearly periods. We relate within-year changes in the treatment to within-year changes in the outcome. In principle, we do not know when those changes occur within these time periods. In other words, we do not know when exactly people changed their employment status or their political evaluations (and what precedes what). This is a general limitation of panel data. However, in our view it is unlikely that changes in trust in government/satisfaction with democracy cause people to become unemployed. In other words, arguments that describe a causal path from trust in government/satisfaction with democracy to unemployment seem implausible, meaning that such causal paths do not realistically apply to a significant number of people in our sample.
+
+\hypertarget{sec:results}{%
+\section{Empirical results}\label{sec:results}}
+
+Table \ref{table-3} displays the results for the pooled data for both the SHP Switzerland and the LISS Netherlands, pooling all units (individuals) across time. The large N in the respective models reflects the number of unit*time observations. The coefficients for unemployed describe the differences in the outcome averages between those who are employed and those who are not. The respective models (M1-M12) consistently show that unemployment negatively affects trust in government, satisfaction with democracy and life satisfaction. All coefficients are statistically significant both with and without controls. Moreover, while we would argue that all coefficients are also substantively significant (outcomes are measured on 11-point scales), i.e.~in terms of size, unemployment has a much larger effect on life satisfaction than on political evaluations, as can be seen from Model 5, 6, 11, 12 in Table \ref{table-3}. Table \ref{table-3} also reveals that the effects are relatively consistent across the two panel datasets. All are negative, and the differences across the two datasets are altogether not that strong. However, we would expect that the results in Table \ref{table-3} are biased, as there are various unobserved time-invariant and time-variant confounders affecting both unemployment and our outcomes of interest.
+
+\input{./table-3.tex}
+
+Therefore, in a second step we rely on fixed effects models (FE) as displayed in Table \ref{table-4}. We find that the differences to the pooled models are considerable. The effect on life satisfaction is consistently statistically significant and substantially significant (M17, M18, M23, M24). In contrast, the effect on satisfaction with democracy is not statistically significant and substantially small (M15, M16, M21, M22). The effects on trust in government are substantially small and not statistically significant in the SHP (M13, M14). In the LISS dataset, the effect is stronger in the model which excludes controls (M19); however, it weakens as we add controls (M20). While these results are not exactly clear-cut, in our view, they are not consistent enough to infer that there is a causal effect of unemployment on satisfaction with democracy or trust in government in the present sample, especially for the latter outcome. First, the effects on our outcomes are much smaller compared to the effect on life satisfaction, especially when we focus on the models that include covariates (M14, M16, M20, M22). Second, only a single coefficient (M20) reaches statistical significance considering a p \textless{} 0.05 threshold. However, such a p-value is regarded by some as only providing suggestive evidence (Benjamin et al. 2017), while others suggest to abandon such arbitrary cut-off values altogether (McShane et al. 2017).
+
+\input{./table-4.tex}
+
+\input{./table-5.tex}
+
+Finally, following the arguments provided in Imai and Kim (2016), we estimate a further set of weighted linear fixed effects (WFE) models. Table \ref{table-5} displays the corresponding results, which mirror those obtained through FE estimation. The effect on life satisfaction remains robust, with and without controls. Moreover, the effect sizes seem substantively significant. In comparison, the effects on trust in government and satisfaction (M26, M28, M32, M34) are only partly statistically significant (p \textless{} 0.05 in M28, M32). Furthermore, they are generally small in size as compared to the effect on life satisfaction, despite the fact that all outcomes are measured on 11-point scales.\footnote{The within-unit over time variation of life satisfaction is lower than that of trust in government and satisfaction with democracy. Besides, scholars recently suggested that p-values between 0.005 and 0.05 can only be regarded as suggestive evidence (Benjamin et al. 2017, 3).} Given this inconsistency, our results seem to support \(H_{0}\), namely that \emph{unemployment has no effect on trust in government or satisfaction with democracy}. This general pattern is visualized in Figure \ref{fig-results}, which summarizes the results. We discuss limitations that may undermine this conclusion below.
+
+\begin{figure}[h]
+\centering
+\caption{Visualization of effects across models, outcomes and datasets}\label{fig-results}
+        \includegraphics[width=1\linewidth]{fig-1.jpg}
+\begin{flushleft}
+\scriptsize Note: Filled (SHP data) and empty (LISS data) symbols represent point estimates of effects for 36 models; lines represent 95\% confidence intervals;  model names M1-M36 correspond to model names in Table 3, 4 and 5; see plot legend for further explanation; FE = fixed effects, WFE = Weighted linear fixed effects; data: Swiss Household Panel (SHP) and Longitudinal Internet Studies for the Social sciences (LISS).
+\end{flushleft}
+\end{figure}
+
+\hypertarget{sec:conclusion}{%
+\section{Discussion and conclusion}\label{sec:conclusion}}
+
+We investigate whether unemployment affects trust in government and satisfaction with democracy. We thereby contribute to current scholarship on the effects of unemployment (Brand 2015; Naumann, Buss, and Bähr 2016; Margalit 2013), on causes of political trust and satisfaction with democracy (e.g. Listhaug and Jakobsen 2017), and on the more general link between experiences and trust (Listhaug and Jakobsen 2017; Dinesen and Bekkers 2015). Relying on panel data and corresponding models, we find no consistent evidence that unemployment negatively affects trust in government or satisfaction with democracy, which is in line with \(H_{0}\). However, we can replicate earlier findings on the negative relationship between unemployment and life satisfaction (cf. Winkelmann and Winkelmann 1998), which suggests that our apparent non-finding is not merely a result of the methods we apply. Our findings somewhat contrast macro-level evidence that links unemployment to political trust (e.g. Kroknes, Jakobsen, and Grønning 2015; Roth, Nowak-Lehmann, and Otter 2011) but also micro-level evidence that links unemployment to support for the welfare state and unemployment benefits (Naumann, Buss, and Bähr 2016; Margalit 2013). The former contrast can possibly be explained by both the classic pocketbook--sociotropic voter argument and by case selection. The latter difference is more intriguing. It seems to indicate that an experience of unemployment may affect concrete attitudes towards policies linked to unemployment, while more abstract attitudes remain largely unaffected.\\
+Our study is characterized by limitations. These may explain the above-mentioned differences but also serve as starting points for future research. First, in line with other panel-data studies that focus on single countries (e.g. Margalit 2013; Naumann, Buss, and Bähr 2016), we analyze panel data from ``only'' two countries, Switzerland and the Netherlands. As discussed before, the relationship between unemployment and political evaluations may hinge on the prevalence of certain norms, on the basis of which the unemployed blame the government or the political system for their fate or not. Such a mechanism seems highly unlikely in some contexts, e.g.~the U.S., but more likely in other contexts, e.g.~Spain. While the effects we find are relatively consistent across two countries, more panel data from a wider set of countries may allow researchers to investigate such potential for context dependence.\\
+A second drawback concerns the particular types of unemployment experiences we study. We do not have enough information to properly unpack what experiences lurk behind our unemployment variable. The reasons why someone has become unemployed should matter. Future studies would ideally measure and differentiate between such reasons for unemployment in a more fine-grained way. For instance, someone whose unemployment was a direct consequence of the crisis may be quicker to connect her situation to politics. Furthermore, we focus on the effects of direct unemployment experiences. However, following the sociotropic argument, indirect experiences of unemployment, e.g.~observing people in one's network (Newman and Vickrey 2017) or in one's neighborhood (Bisgaard 2015; Oesch and Lipps 2013), may equally matter. Studying and contrasting such indirect experiences with direct experiences is an important area of future research.\\
+Third, time matters. To start, the length of treatment could matter. It seems plausible that long-term unemployment affects political evaluations to a greater extent than short-term unemployment. Our data do not contain enough observations of the long-term unemployed. Although collecting such data is challenging, we nevertheless think that studying the political attitudes of citizens who have been excluded from the labor market for long periods is relevant, especially given predictions of how automation may increase levels of unemployment (e.g. Arntz, Gregory, and Zierahn 2016). Of course, studying such long-term lags and the effects of long-term unemployment is challenging from a design perspective. The longer an individual's period of unemployment is, the less likely we are to find a suitable control unit or observation that displays a similar life trajectory and differentiates itself only through being employed. On another note, with one-year panel periods we may fail to capture effects that are more short-term. Thus, future studies would ideally measure our individual-level outcomes on a more frequent basis both before and after the onset of unemployment.\\
+Finally, our investigation is limited by the sample size. In principle, it is possible that the effect of unemployment is heterogeneous across (subgroups of) individuals (treatment effect heterogeneity). For certain individuals, the causal story we provide may seem more plausible. For instance, unemployment may have a stronger effect on groups that are already disadvantaged in the labor market, such as women or individuals with lower class background. Similarly, individuals' ideology should determine whether they link their personal economic situation to a government or to the wider political system. Future data collections that comprise more individuals may allow for an exploration of such assumed treatment heterogeneity.
+
+\newpage
+
+\hypertarget{sec:appendix}{%
+\section{Appendix}\label{sec:appendix}}
+
+\input{./table-6.tex}
+
+\input{./table-7.tex}
+
+\input{./table-8.tex}
+
+\normalsize
+
+\clearpage
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-Ahn2004-mg}{}%
+Ahn, Namkee, Juan Ramon Garcia, and Juan Francisco Jimeno. 2004. ``Well-Being Consequences of Unemployment in Europe.''
+
+\leavevmode\hypertarget{ref-Almond1963-bp}{}%
+Almond, Gabriel A, and Sidney Verba. 1963. \emph{The Civic Culture: Political Attitudes and Democracy in Five Nations}. New Jersey: Princeton University Press.
+
+\leavevmode\hypertarget{ref-Archer1993-bq}{}%
+Archer, John, and Valerie Rhodes. 1993. ``The Grief Process and Job Loss: A Cross-Sectional Study.'' \emph{British Journal of Psychology} 84 (3). Wiley Online Library: 395--410.
+
+\leavevmode\hypertarget{ref-Arias2013-px}{}%
+Arias, Omar, Walter Sosa-Escudero, Davis Alfaro Serrano, Maria Edo, and Indira Santos. 2013. ``Do Jobs Lead to More Trust? A Synthetic Cohorts Approach.''
+
+\leavevmode\hypertarget{ref-Armingeon2014-ut}{}%
+Armingeon, Klaus, and Besir Ceka. 2014. ``The Loss of Trust in the European Union During the Great Recession Since 2007: The Role of Heuristics from the National Political System.'' \emph{European Union Politics} 15 (1): 82--107.
+
+\leavevmode\hypertarget{ref-Armingeon2014-xg}{}%
+Armingeon, Klaus, and Kai Guthmann. 2014. ``Democracy in Crisis? The Declining Support for National Democracy in European Countries, 2007--2011.'' \emph{European Journal of Political Research} 53 (3): 423--42.
+
+\leavevmode\hypertarget{ref-Arntz2016-od}{}%
+Arntz, Melanie, Terry Gregory, and Ulrich Zierahn. 2016. ``The Risk of Automation for Jobs in OECD Countries: A COMPARATIVE ANALYSIS.'' \emph{OECD Social, Employment, and Migration Working Papers; Paris}. United States--US, France: Organisation for Economic Cooperation; Development (OECD).
+
+\leavevmode\hypertarget{ref-Bay2002-fg}{}%
+Bay, Ann-Helén, and Morten Blekesaune. 2002. ``Youth, Unemployment and Political Marginalisation.'' \emph{International Journal of Social Welfare} 11 (2). Blackwell Publishers Ltd: 132--39.
+
+\leavevmode\hypertarget{ref-Benjamin2017-rf}{}%
+Benjamin, Daniel J, James O Berger, Magnus Johannesson, Brian A Nosek, E-J Wagenmakers, Richard Berk, Kenneth A Bollen, et al. 2017. ``Redefine Statistical Significance.'' \emph{Nature Human Behaviour}, September. Nature Publishing Group, 1.
+
+\leavevmode\hypertarget{ref-Bisgaard2015-xb}{}%
+Bisgaard, Martin. 2015. ``Bias Will Find a Way: Economic Perceptions, Attributions of Blame, and Partisan-Motivated Reasoning During Crisis.'' \emph{The Journal of Politics} 77 (3): 849--60.
+
+\leavevmode\hypertarget{ref-Blackaby1999-qd}{}%
+Blackaby, David, Derek Leslie, Philip Murphy, and Nigel O'Leary. 1999. ``Unemployment Among Britain's Ethnic Minorities.'' \emph{The Manchester School of Economic and Social Studies} 67 (1): 1--20.
+
+\leavevmode\hypertarget{ref-Blundell1987-qz}{}%
+Blundell, Richard, John Ham, and Costas Meghir. 1987. ``Unemployment and Female Labour Supply.'' \emph{The Economic Journal of Nepal} 97 (January): 44--64.
+
+\leavevmode\hypertarget{ref-Brand2015-rr}{}%
+Brand, Jennie E. 2015. ``The Far-Reaching Impact of Job Loss and Unemployment.'' \emph{Annual Review of Sociology} 41: 359--75.
+
+\leavevmode\hypertarget{ref-Brehm1997-qy}{}%
+Brehm, John, and Wendy Rahn. 1997. ``Individual-Level Evidence for the Causes and Consequences of Social Capital.'' \emph{American Journal of Political Science} 41 (3): 999--1023.
+
+\leavevmode\hypertarget{ref-Chabanet2007-ro}{}%
+Chabanet. 2007. ``Die Politischen Konsequenzen von Arbeitslosigkeit Und Prekärer Beschäftigung in Europa.'' \emph{Forschungsjournal NSB} 20 (1): 71--80.
+
+\leavevmode\hypertarget{ref-Collier2005-ja}{}%
+Collier, William. 2005. ``Unemployment Duration and Individual Heterogeneity: A Regional Study.'' \emph{Applied Economics} 37 (2): 133--53.
+
+\leavevmode\hypertarget{ref-Croissant2008-tb}{}%
+Croissant, Yves, Giovanni Millo, and Others. 2008. ``Panel Data Econometrics in R: The Plm Package.'' \emph{Journal of Statistical Software} 27 (2): 1--43.
+
+\leavevmode\hypertarget{ref-Croissant2017-mt}{}%
+Croissant, Yves, Giovanni Millo, Kevin Tappe, Ott Toomet, Christian Kleiber, Achim Zeileis, Arne Henningsen, Liviu Andronic, and Nina Schoenfelder. 2017. ``Linear Models for Panel Data {[}R Package Plm Version 1.6-6{]}.'' Comprehensive R Archive Network (CRAN).
+
+\leavevmode\hypertarget{ref-Dalton2004-ba}{}%
+Dalton, Russell J. 2004. \emph{Democratic Challenges, Democratic Choices: The Erosion of Political Support in Advanced Industrial Democracies}. Comparative Politics. Oxford: Oxford University Press.
+
+\leavevmode\hypertarget{ref-Delhey2003-hv}{}%
+Delhey, J, and K Newton. 2003. ``Who Trusts? The Origins of Social Trust in Seven Societies.'' \emph{European Societies} 5: 93--137.
+
+\leavevmode\hypertarget{ref-Dinesen2015-fr}{}%
+Dinesen, Peter Thisted, and René Bekkers. 2015. ``The Foundations of Individuals' Generalized Social Trust: A Review.'' In \emph{Trust in Social Dilemmas}, edited by Paul A M Van Lange, Bettina Rockenbach, and Toshio Yamagishi, 77--100. Oxford University Press.
+
+\leavevmode\hypertarget{ref-Easton1975-pe}{}%
+Easton, David. 1975. ``A Re-Assessment of the Concept of Political Support.'' \emph{British Journal of Political Science} 5 (04). Cambridge Univ Press: 435--57.
+
+\leavevmode\hypertarget{ref-European_Commission2012-pk}{}%
+European Commission. 2012. ``European Employment Observatory Review: Long-Term Unemployment 2012.'' European Commission: Directorate-General for Employment, Social Affairs; Inclusion.
+
+\leavevmode\hypertarget{ref-Falk2011-ni}{}%
+Falk, Armin, Andreas Kuhn, and Josef Zweimueller. 2011. ``Unemployment and Right-Wing Extremist Crime.'' \emph{Scand. J. Econ.} 113 (2). Blackwell Publishing Ltd: 260--85.
+
+\leavevmode\hypertarget{ref-Foster2017-si}{}%
+Foster, Chase, and Jeffry Frieden. 2017. ``Crisis of Trust: Socio-Economic Determinants of Europeans' Confidence in Government.'' \emph{European Union Politics}, August, 1465116517723499.
+
+\leavevmode\hypertarget{ref-Goldsmith1996-ks}{}%
+Goldsmith, Arthur H, Jonathan R Veum, and William Darity Jr. 1996. ``The Psychological Impact of Unemployment and Joblessness.'' \emph{The Journal of Socio-Economics} 25 (3): 333--58.
+
+\leavevmode\hypertarget{ref-Granovetter1973-vq}{}%
+Granovetter, Mark S. 1973. ``The Strength of Weak Ties.'' \emph{The American Journal of Sociology} 78 (6): 1360--80.
+
+\leavevmode\hypertarget{ref-Hansford2015-pd}{}%
+Hansford, Thomas G, and Brad T Gomez. 2015. ``Reevaluating the Sociotropic Economic Voting Hypothesis.'' \emph{Electoral Studies} 39: 15--25.
+
+\leavevmode\hypertarget{ref-Hetherington1998-kn}{}%
+Hetherington, Marc J. 1998. ``The Political Relevance of Political Trust.'' \emph{The American Political Science Review} 92 (4): 791--808.
+
+\leavevmode\hypertarget{ref-Hetherington2005-el}{}%
+---------. 2005. \emph{Why Trust Matters: Declining Political Trust and the Demise of American Liberalism}. Princeton, NJ: Princeton University Press.
+
+\leavevmode\hypertarget{ref-Hlavac2014-wd}{}%
+Hlavac, Marek. 2014. ``Stargazer: LaTeX Code and ASCII Text for Well-Formatted Regression and Summary Statistics Tables.'' \emph{R Foundation for Statistical Computing}.
+
+\leavevmode\hypertarget{ref-Hudson2006-hz}{}%
+Hudson, John. 2006. ``Institutional Trust and Subjective Well-Being Across the EU.'' \emph{Kyklos} 59 (1): 43--62.
+
+\leavevmode\hypertarget{ref-Imai2016-td}{}%
+Imai, Kosuke, and In Song Kim. 2016. ``When Should We Use Linear Fixed Effects Regression Models for Causal Inference with Longitudinal Data?'' \emph{Working Paper}.
+
+\leavevmode\hypertarget{ref-Jahoda1974-or}{}%
+Jahoda, Marie, and Hans Zeisel. 1974. \emph{Marienthal: The Sociography of an Unemployed Community}. New Jersey: Transaction Publishers.
+
+\leavevmode\hypertarget{ref-Kim2017-vu}{}%
+Kim, In Song, Kosuke Imai, and Erik Wang. 2017. ``Weighted Linear Fixed Effects Regression Models for Causal Inference {[}R Package Wfe Version 1.6{]}.'' Comprehensive R Archive Network (CRAN).
+
+\leavevmode\hypertarget{ref-Kinder1981-nz}{}%
+Kinder, Donald R, and D Roderick Kiewiet. 1981. ``Sociotropic Politics: The American Case.'' \emph{British Journal of Political Science} 11 (2): 129--61.
+
+\leavevmode\hypertarget{ref-Kroknes2015-ft}{}%
+Kroknes, Veronica Fagerland, Tor Georg Jakobsen, and Lisa-Marie Grønning. 2015. ``Economic Performance and Political Trust: The Impact of the Financial Crisis on European Citizens.'' \emph{European Societies} 17 (5): 700--723.
+
+\leavevmode\hypertarget{ref-Laurence2015-nk}{}%
+Laurence, James. 2015. ``(Dis)placing Trust: The Long-Term Effects of Job Displacement on Generalised Trust over the Adult Lifecourse.'' \emph{Social Science Research} 50 (March): 46--59.
+
+\leavevmode\hypertarget{ref-Leana1992-cp}{}%
+Leana, Carrie R, and Daniel C Feldman. 1992. \emph{Coping with Job Loss: How Individuals, Organizations, and Communities Respond to Layoffs}. New York: Free Press.
+
+\leavevmode\hypertarget{ref-Levi2000-dx}{}%
+Levi, Margaret, and Laura Stoker. 2000. ``Political Trust and Trustworthiness.'' \emph{Annual Review of Political Science} 3: 475--507.
+
+\leavevmode\hypertarget{ref-Linn1985-gi}{}%
+Linn, M W, R Sandifer, and S Stein. 1985. ``Effects of Unemployment on Mental and Physical Health.'' \emph{American Journal of Public Health} 75 (5): 502--6.
+
+\leavevmode\hypertarget{ref-Listhaug2017-et}{}%
+Listhaug, Ola, and Tor Georg Jakobsen. 2017. ``Foundations of Political Trust.'' In \emph{The Oxford Handbook of Social and Political Trust}, edited by Eric M Uslaner. Oxford: Oxford University Press.
+
+\leavevmode\hypertarget{ref-Lundin2009-gh}{}%
+Lundin, Andreas, and Tomas Hemmingsson. 2009. ``Unemployment and Suicide.'' \emph{The Lancet} 374 (9686): 270--71.
+
+\leavevmode\hypertarget{ref-Margalit2013-ph}{}%
+Margalit, Yotam. 2013. ``Explaining Social Policy Preferences: Evidence from the Great Recession.'' \emph{The American Political Science Review} 107 (1): 80--103.
+
+\leavevmode\hypertarget{ref-McShane2017-bc}{}%
+McShane, Blakeley B, David Gal, Andrew Gelman, Christian Robert, and Jennifer L Tackett. 2017. ``Abandon Statistical Significance,'' September.
+
+\leavevmode\hypertarget{ref-Mishler2001-fp}{}%
+Mishler, William, and Richard Rose. 2001. ``What Are the Origins of Political Trust?: Testing Institutional and Cultural Theories in Post-Communist Societies.'' \emph{Comparative Political Studies} 34 (1): 30--62.
+
+\leavevmode\hypertarget{ref-Mishler2005-mk}{}%
+---------. 2005. ``What Are the Political Consequences of Trust?: A Test of Cultural and Institutional Theories in Russia.'' \emph{Comparative Political Studies} 38 (9): 1050--78.
+
+\leavevmode\hypertarget{ref-Misztal2001-vv}{}%
+Misztal, Barbara A. 2001. ``Trust and Cooperation: The Democratic Public Sphere.'' \emph{Journal of Sociology} 37 (4): 371--86.
+
+\leavevmode\hypertarget{ref-Muro2014-jg}{}%
+Muro, Diego, and Guillem Vidal. 2014. ``Persistent Unemployment Poses a Substantive Threat to Democracy in Southern European Countries.'' \url{http://blogs.lse.ac.uk/europpblog/2014/03/13/persistent-unemployment-poses-a-substantive-threat-to-democracy-in-southern-european-countries/}.
+
+\leavevmode\hypertarget{ref-Naumann2016-yh}{}%
+Naumann, Elias, Christopher Buss, and Johannes Bähr. 2016. ``How Unemployment Experience Affects Support for the Welfare State: A Real Panel Approach.'' \emph{European Sociological Review} 32 (1): 81--92.
+
+\leavevmode\hypertarget{ref-Newman2017-ls}{}%
+Newman, Benjamin J, and Clifford D Vickrey. 2017. ``Friends on the Dole: Social Networks, Vicarious Economic Distress, and Support for Social Welfare Spending.'' \emph{International Journal of Public Opinion Research} 29 (1): 172--88.
+
+\leavevmode\hypertarget{ref-Newton2011-ix}{}%
+Newton, Ken, and Sonja Zmerli. 2011. ``Three Forms of Trust and Their Association.'' \emph{European Political Science Review} 3 (2): 169--200.
+
+\leavevmode\hypertarget{ref-Oecd2017-pq}{}%
+OECD. 2017a. ``Harmonised Unemployment Rate (HUR).'' \url{http://dx.doi.org/10.1787/52570002-en}.
+
+\leavevmode\hypertarget{ref-Oecd2017-lj}{}%
+---------. 2017b. ``Unemployment Rate.'' \url{http://dx.doi.org/10.1787/997c8750-en}.
+
+\leavevmode\hypertarget{ref-Oesch2013-za}{}%
+Oesch, Daniel, and Oliver Lipps. 2013. ``Does Unemployment Hurt Less If There Is More of It Around? A Panel Analysis of Life Satisfaction in Germany and Switzerland.'' \emph{European Sociological Review} 29 (5). Oxford University Press: 955--67.
+
+\leavevmode\hypertarget{ref-Perrucci2009-yq}{}%
+Perrucci, Robert, and Carolyn C Perrucci. 2009. \emph{America at Risk: The Crisis of Hope, Trust, and Caring}. Lanham, MD: Rowman \& Littlefield Publishers.
+
+\leavevmode\hypertarget{ref-Pharr2000-qy}{}%
+Pharr, S, and R Putnam. 2000. \emph{Disaffected Democracies: What's Troubling the Trilateral Countries?} Princeton, NJ: Princeton University Press.
+
+\leavevmode\hypertarget{ref-Putnam2000-ea}{}%
+Putnam, Robert David. 2000. \emph{Bowling Alone: The Collapse and Revival of American Community}. New York: Simon \& Schuster.
+
+\leavevmode\hypertarget{ref-Rantakeisu1997-lb}{}%
+Rantakeisu, U, B Starrin, and C Hagquist. 1997. ``Unemployment, Shame and Ill Health --- an Exploratory Study.'' \emph{Scandinavian Journal of Social Welfare} 6 (1): 13--23.
+
+\leavevmode\hypertarget{ref-Roth2009-jh}{}%
+Roth, Felix. 2009. ``The Effect of the Financial Crisis on Systemic Trust.'' \emph{Intereconomics} 44 (4): 203--8.
+
+\leavevmode\hypertarget{ref-Roth2011-nb}{}%
+Roth, Felix, Felicitas Nowak-Lehmann, and Thomas Otter. 2011. ``Has the Financial Crisis Shattered Citizens' Trust in National and European Governmental Institutions? Evidence from the EU Member States, 1999-2010.'' \emph{Centre for European Policy Studies Papers} 343 (4159).
+
+\leavevmode\hypertarget{ref-Scott1979-aw}{}%
+Scott, Wilbur J, and Alan C Acock. 1979. ``Socioeconomic Status, Unemployment Experience, and Political Participation: A Disentangling of Main and Interaction Effects.'' \emph{Political Behavior} 1 (4): 361--81.
+
+\leavevmode\hypertarget{ref-Siedler2006-yw}{}%
+Siedler, Thomas. 2006. ``Family and Politics: Does Parental Unemployment Cause Right-Wing Extremism?'' \emph{IZA Discussion Paper} 2411: 1--49.
+
+\leavevmode\hypertarget{ref-Stokes1984-so}{}%
+Stokes, Graham, and Raymond Cochrane. 1984. ``A Study of the Psychological Effects of Redundancy and Unemployment.'' \emph{Journal of Occupational Psychology} 57 (4): 309--22.
+
+\leavevmode\hypertarget{ref-Uslaner2002-ks}{}%
+Uslaner, Eric M. 2002. \emph{The Moral Foundations of Trust}. Cambridge, United Kingdom: Cambridge University Press.
+
+\leavevmode\hypertarget{ref-Waters2007-os}{}%
+Waters, Lea. 2007. ``Experiential Differences Between Voluntary and Involuntary Job Redundancy on Depression, Job-Search Activity, Affective Employee Outcomes and Re-Employment Quality.'' \emph{Journal of Occupational and Organizational Psychology} 80 (2): 279--99.
+
+\leavevmode\hypertarget{ref-Winkelmann1998-kb}{}%
+Winkelmann, Liliana, and Rainer Winkelmann. 1998. ``Why Are the Unemployed so Unhappy?Evidence from Panel Data.'' \emph{Economica} 65 (257): 1--15.
+
+\leavevmode\hypertarget{ref-Wooldridge2010-jb}{}%
+Wooldridge, Jeffrey M. 2010. \emph{Econometric Analysis of Cross Section and Panel Data}. Cambridge, MA: MIT press.
+
+\leavevmode\hypertarget{ref-Zawadzki1935-gg}{}%
+Zawadzki, Bohan, and Paul Lazarsfeld. 1935. ``The Psychological Consequences of Unemployment.'' \emph{The Journal of Social Psychology} 6 (2): 224--51.
+
+
+\end{document}
