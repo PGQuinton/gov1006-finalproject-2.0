@@ -13,7 +13,7 @@ bibliography: milestone5_bib.bib
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, fig.align = "left")
+knitr::opts_chunk$set(echo = FALSE)
 
 library(rsconnect)
 library(stargazer)
@@ -45,7 +45,7 @@ shp <- data.long.shp
 
 ## Introduction
 
-The paper I have chosen for my replication project is entitled "Unemployment, Trust in Government, and Satisfaction with Democracy: An Empirical Investigation" (@bauer2018). ^[The replication materials for this paper and my subsequent analyses can be found at my [Github Repo](https://github.com/PGQuinton/gov1006-finalproject-2.0)] It was authored by Paul C. Bauer in 2018. The purpose of the paper is to evaluate how unemployment affects a person's trust in the government and their views towards democracy in general. Bauer begins with macro level data from the Netherlands and Switzerland to construct his analysis but expands to utilize panel data so as to evaluate the relationship on an individual level. 
+The paper I have chosen for my replication project is entitled "Unemployment, Trust in Government, and Satisfaction with Democracy: An Empirical Investigation" (@bauer2018). ^[The replication materials for this paper and my subsequent analyses can be found at my [Github Repo](https://github.com/PGQuinton/gov1006-finalproject-2.0) and the published paper is availabe through [bookdown](https://bookdown.org/pquinton/milestone7/milestone7.pdf).] It was authored by Paul C. Bauer in 2018. The purpose of the paper is to evaluate how unemployment affects a person's trust in the government and their views towards democracy in general. Bauer begins with macro level data from the Netherlands and Switzerland to construct his analysis but expands to utilize panel data so as to evaluate the relationship on an individual level. 
 
 The aim of Bauer's paper is to show how unemployment influences a person's trust in government, satisfaction with democracy, and life satisfaction in general. Bauer also controls for variations in age, education, and party membership. Because the link between life satisfaction and unemployment is somewhat more widely studied, Bauer uses that as a base metric to evaluate the magnitude of the other effects upon. All three dependent variables (trust in government, satisfaction in democracy, and life satisfaction) are measured on a 1-10 scale with 0 indicating no trust or satisfaction and 10 indicating complete trust or satisfaction.
 
@@ -472,7 +472,7 @@ liss.fit.wfe.control.ls.ext <- wfe(life_satisfaction ~ unemployed * lagged_unemp
                 as.numeric(summary(liss.fit.wfe.control.ls.ext)[2]$coefficients[,4])
              ),  
     omit.stat = "all",
-    notes = "SEs in parentheses.\n Columns 25-30 are from the SHP survey and columns 31-36 are from the LISS survey.",
+    notes = "SEs in parentheses. Columns 25-30 are from the SHP survey and columns 31-36 are from the LISS survey.",
     notes.append = TRUE,
     font.size = "tiny",
     digits = 2,
