@@ -6,17 +6,38 @@ date: "4/3/2020"
 output: 
   bookdown::pdf_document2:
     keep_tex: true
+document_class: article
 bibliography: milestone5_bib.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
+library(rsconnect)
 library(stargazer)
 library(plyr)
 library(plm)
 library(wfe)
 library(tidyverse)
+```
+
+```{r data}
+
+# Loaded the LISS data from the directory
+
+load(file = "./data-long-liss.RData")
+
+# Saved the loaded data as liss
+
+liss <- data.long.liss
+
+# Loaded the SHP data from the directory
+
+load(file = "./data-long-shp.RData")
+
+# Saved the data as SHP
+
+shp <- data.long.shp
 ```
 
 
@@ -40,30 +61,131 @@ Though the inclusion of the interaction is valuable, I feel there is an even mor
 
 I’m still working through my exact plan of action for completing the long-term vs. short-term unemployment extension. However, my initial thoughts suggest that I will create a new variable indicating whether someone had been unemployed the year before. That variable can be added to the regression as a control. I am also thinking about creating a variable with the number of years a household reported being unemployed during the reporting and attaching that to the regression. I may end up running separate regressions so to avoid overfitting the data but we will see. 
 
+```{r extension}
+
+liss_2.0 <- liss %>%
+  group_by(unit) %>%
+  summarize(total_unemployment = sum(unemployed))
+
+liss_3.0 <- liss %>%
+  filter(time == 2014) %>%
+  inner_join(liss_2.0, by = "unit")
+
+modelExtension_1 <- lm(trust_in_government ~ unemployed + age + education + member, data = liss_3.0)
+
+liss <- liss %>%
+  group_by(unit) %>%
+  arrange(time) %>%
+  mutate(lagged_unemployed = lag(unemployed)) %>%
+  ungroup(unit)
+
+shp_2.0 <- shp %>%
+  group_by(unit) %>%
+  summarize(total_unemployment = sum(unemployed))
+
+shp <- shp %>%
+  group_by(unit) %>%
+  arrange(time) %>%
+  mutate(lagged_unemployed = lag(unemployed)) %>%
+  ungroup(unit)
+
+
+
+```
+
+
+```{r tableExtension, results = 'asis'}
+
+# SHP
+# The same process as above but I used a fixed effects model instead of a pooled model
+# The only difference is I change model from "pooled" to "within"
+
+shp.fit.fe.tig.ext <- plm(trust_in_government ~ unemployed, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+   
+shp.fit.fe.swd.ext <- plm(satisfaction_with_democracy ~ unemployed, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+      
+shp.fit.fe.ls.ext <- plm(life_satisfaction ~ unemployed, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+    
+shp.fit.fe.control.tig.ext <- plm(trust_in_government ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+ 
+shp.fit.fe.control.swd.ext <- plm(satisfaction_with_democracy ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+     
+shp.fit.fe.control.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+
+# LISS
+# Same as for SHP but with the LISS data
+
+liss.fit.fe.tig.ext <- plm(trust_in_government ~ unemployed, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+   
+liss.fit.fe.swd.ext <- plm(satisfaction_with_democracy ~ unemployed, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+      
+liss.fit.fe.ls.ext <- plm(life_satisfaction ~ unemployed, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+    
+liss.fit.fe.control.tig.ext <- plm(trust_in_government ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+ 
+liss.fit.fe.control.swd.ext <- plm(satisfaction_with_democracy ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+     
+liss.fit.fe.control.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+
+# Stargazer output with the same formatting as Table 3
+
+stargazer(shp.fit.fe.tig.ext, shp.fit.fe.control.tig.ext, shp.fit.fe.swd.ext, shp.fit.fe.control.swd.ext, shp.fit.fe.ls.ext, shp.fit.fe.control.ls.ext, liss.fit.fe.tig.ext, liss.fit.fe.control.tig.ext, liss.fit.fe.swd.ext, liss.fit.fe.control.swd.ext, liss.fit.fe.ls.ext, liss.fit.fe.control.ls.ext,
+          omit.stat=c("LL","ser","f","adj.rsq"),
+          header = FALSE,
+          font.size = "tiny",
+          digits = 2,
+          label = "table-5",
+          column.sep.width = "-7.5pt",
+          title = "SHP Switzerland and LISS Netherlands: fixed effects models with lagged unemployment",
+          column.labels = c("(M13)", "(M14)", "(M15)", "(M16)", "(M17)", "(M18)", "(M19)", "(M20)", "(M21)", "(M22)", "(M23)", "(M24)"),
+          covariate.labels = c("Unemployed", "Lagged Unemployed", "Unemployed:Lagged Unemployed", "Age", "Education", "Member"),
+          dep.var.labels = c("trust in government", "statisfaction with democracy", "life satisfaction"),
+          model.names = FALSE,
+          model.numbers = FALSE
+          )
+```
+
 
 \newpage
 
 
 ## Appendix
-
-```{r data}
-
-# Loaded the LISS data from the directory
-
-load(file = "./data-long-liss.RData")
-
-# Saved the loaded data as liss
-
-liss <- data.long.liss
-
-# Loaded the SHP data from the directory
-
-load(file = "./data-long-shp.RData")
-
-# Saved the data as SHP
-
-shp <- data.long.shp
-```
 
 
 ```{r table1, results='asis'}
