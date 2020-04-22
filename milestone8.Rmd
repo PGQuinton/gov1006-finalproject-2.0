@@ -1,5 +1,5 @@
 ---
-title: "GOV 1006: Milestone 7"
+title: "GOV 1006: Milestone 8"
 subtitle: "Paper Replication"
 author: "Pieter Quinton"
 date: "4/17/2020"
@@ -10,6 +10,9 @@ output:
     toc: no
 document_class: article
 bibliography: milestone5_bib.bib
+mainfont: Wingdings
+sansfont: Wingdings
+fontsize: 12pt
 ---
 
 ```{r setup, include=FALSE}
@@ -43,23 +46,23 @@ shp <- data.long.shp
 ```
 
 
-## Introduction
+# Introduction
 
-The paper I have chosen for my replication project is entitled "Unemployment, Trust in Government, and Satisfaction with Democracy: An Empirical Investigation" (@bauer2018). ^[The replication materials for this paper and my subsequent analyses can be found at my [Github Repo](https://github.com/PGQuinton/gov1006-finalproject-2.0) and the published paper is availabe through [bookdown](https://bookdown.org/pquinton/milestone7/milestone7.pdf).] It was authored by Paul C. Bauer in 2018. The purpose of the paper is to evaluate how unemployment affects a person's trust in the government and their views towards democracy in general. Bauer begins with macro level data from the Netherlands and Switzerland to construct his analysis but expands to utilize panel data so as to evaluate the relationship on an individual level. 
+"Unemployment, Trust in Government, and Satisfaction with Democracy: An Empirical Investigation", authored by Paul Bauer, explores how unemployment affects a person's trust in the government and their views towards democracy in general (@bauer2018). Bauer utilizes panel data from two household surveys, one in Switzerland and one in the Netherlands, to evaluate the relationship between unemployment and feelings towards government on an individual level. Due to prior findings on the link between life satisfaction and unemployment, Bauer uses that as a base metric to evaluate the magnitude of the other effects upon. Bauer finds that a household's unemployment status has no consistent effect on either trust in the government or satisfaction with democracy. These findings contradict his initial hypothesis that unemployment would lead people to have lower levels of trust and satisfaction with the government and democratic institutions. However, Bauer does find that unemployment is negatively associated with life satisfaction. People who are unemployed are generally less satisfied with their lives than those who are employed. This finding is consistent with previous research on the topic (@hudson2006; @jimeno2007). Moving forward, Bauer hopes to increase the sample size of the studied group to further explore heterogenous treatment effects across various subgroups of individuals. For example, he hypothesizes that the effect of unemployment on attitudes may be greater among people traditionally disadvantaged in the labor market such as women and workers of a lower-class.
 
-The aim of Bauer's paper is to show how unemployment influences a person's trust in government, satisfaction with democracy, and life satisfaction in general. Bauer also controls for variations in age, education, and party membership. Because the link between life satisfaction and unemployment is somewhat more widely studied, Bauer uses that as a base metric to evaluate the magnitude of the other effects upon. All three dependent variables (trust in government, satisfaction in democracy, and life satisfaction) are measured on a 1-10 scale with 0 indicating no trust or satisfaction and 10 indicating complete trust or satisfaction.
+Starting with the replication materials provided by Bauer through the Harvard Dataverse, I worked to replicate the findings of Bauer's paper (@dataverse).^[The replication materials for this paper and my subsequent analyses can be found at my [Github Repo](https://github.com/PGQuinton/gov1006-finalproject-2.0) and the published paper is available through [bookdown](https://bookdown.org/pquinton/milestone7/milestone7.pdf).] As Bauer did, I conducted my replication and subsequent extension in RStudio (@RStudio). Thanks to Bauer well documented code and use of RStudio, my replication process was relatively straight forward though there were a couple of discrepencies which I will go into in further detail in the "Replication" section of this paper.
 
-Bauer finds that there is no consistent effect between unemployment and trust in the government or satisfaction with democracy. These findings contradict his initial hypothesis that unemployment would lead people to have lower levels of trust and satisfaction with the government and democratic institutions. However, Bauer does find that unemployment is negatively related to life satisfaction. People who are unemployed are generally less satisfied with their lives than those who are employed. This finding is consistent with previous research on the topic. Moving forward, Bauer hopes to increase the sample size of the studied group to further explore heterogenous treatment effects across various subgroups of individuals. For example, he hypothesizes that the effect of unemployment on attitudes may be greater among people traditionally disadvantaged in the labor market such as women and workers of a lower-class.
 
-## Literature Review
+
+# Literature Review
 
 The impetus for Bauer's paper relies on the fundamental assumption that should a person blame the government or its institutions for their current situation in life, a decrease in the quality of that situation would result in a corresponding decrease in their satisfaction with the government. This assumption stems from the work of John Hudson who examined the relationship between trust in institutions and one's subjective well-being (@hudson2006). Research shows a statistically significant relationship between one's employment status and their life satisfaction (@jimeno2007). As one moves from employed to unemployed, their life satisfaction tends to decrease. Given the two findings, the aim of Bauer's work is to test the hypothesis that unemployment leads to lower levels of trust in government and satisfaction with democracy.  
 
-## Replication
+# Replication
 
 I the appendix, I provide five replicated tables from the original publication. Of the five, Tables 1,3,4,5 were all replicable with no discrepencies. However, my replication of Table 2, did not completely match that of the paper. In reviewing the source code for Bauer's paper, it appears as though he inputs that table from another source. In his replication material, I can find where Bauer creates each of the other tables but not Table 2. Nonetheless, I attempted to replicate the table and largely suceeded. There were two variations between our tables. Bauer's table lists the absence of results for the SHP Life Satisfaction survey in 2010 whereas I have results and his lists the presence of results for the SHP Satisfaction with democracy survey in 2012 whereas in mine that is absent. These discrepencies need to be explored further.
 
-## Extension
+# Extension
 
 The fundamental motivation beyond Bauer’s paper is to study how unemployment affects trust in government and satisfaction in democracy. The goal of my extension to provide further insights and clarity into that relationship. 
 
@@ -495,8 +498,8 @@ liss.fit.wfe.control.ls.ext <- wfe(life_satisfaction ~ unemployed * lagged_unemp
 
 \newpage
 
-## Conclusion
+# Conclusion
 
 \newpage
 
-## References
+# References
