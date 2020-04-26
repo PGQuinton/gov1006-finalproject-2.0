@@ -231,6 +231,8 @@ row.names(shp_1) <- c("SHP: employed", "SHP: unemployed", "LISS: employed", "LIS
 
 stargazer(
   shp_1,
+  type = "latex",
+  out="./replication-table-1.tex",
   header = FALSE,
   summary = FALSE,
   font.size = "small",
@@ -298,6 +300,8 @@ row.names(shp_2) <- c("Trust in government (SHP)", "Satisfaction with democracy 
 
 stargazer(
   shp_2,
+  type = "latex",
+  out="./replication-table-2.tex",
   header = FALSE,
   summary = FALSE,
   font.size = "small",
