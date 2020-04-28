@@ -1,0 +1,461 @@
+---
+title: "Paper Analysis Code"
+author: "Pieter Quinton"
+date: "4/23/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(rsconnect)
+library(stargazer)
+library(plyr)
+library(plm)
+library(wfe)
+library(tidyverse)
+```
+
+```{r data}
+
+# Loaded the LISS data from the directory
+
+load(file = "./Dataverse/data-long-liss.RData")
+
+# Saved the loaded data as liss
+
+liss <- data.long.liss
+
+# Loaded the SHP data from the directory
+
+load(file = "./Dataverse/data-long-shp.RData")
+
+# Saved the data as SHP
+
+shp <- data.long.shp
+```
+
+
+```{r extension data}
+
+liss <- liss %>%
+  group_by(unit) %>%
+  arrange(time) %>%
+  mutate(lagged_unemployed = lag(unemployed)) %>%
+  ungroup(unit)
+
+shp <- shp %>%
+  group_by(unit) %>%
+  arrange(time) %>%
+  mutate(lagged_unemployed = lag(unemployed)) %>%
+  ungroup(unit)
+```
+
+```{r extension table1, results = 'asis'}
+
+# SHP
+# I run six regressions
+# Two for each question (trust in government, satisfaction with democracy, and life satisfaction)
+# The first regression is just with unemployed as the indenpendent variable
+# The second regression includes the controls (age, education, and member)
+# The regression uses a pooling technique (plm) to track observations across units (households) 
+# over time
+
+shp.fit.pooling.tig.ext <- plm(trust_in_government ~ unemployed, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "pooling")
+   
+shp.fit.pooling.swd.ext <- plm(satisfaction_with_democracy ~ unemployed, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "pooling")
+      
+shp.fit.pooling.ls.ext <- plm(life_satisfaction ~ unemployed, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "pooling")
+    
+shp.fit.pooling.control.tig.ext <- plm(trust_in_government ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "pooling")
+ 
+shp.fit.pooling.control.swd.ext <- plm(satisfaction_with_democracy ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "pooling")
+     
+shp.fit.pooling.control.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "pooling")
+
+# LISS
+# Same as above but with the LISS data instead of the SHP data
+
+liss.fit.pooling.tig.ext <- plm(trust_in_government ~ unemployed, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "pooling")
+   
+liss.fit.pooling.swd.ext <- plm(satisfaction_with_democracy ~ unemployed, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "pooling")
+      
+liss.fit.pooling.ls.ext <- plm(life_satisfaction ~ unemployed, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "pooling")
+    
+liss.fit.pooling.control.tig.ext <- plm(trust_in_government ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "pooling")
+ 
+liss.fit.pooling.control.swd.ext <- plm(satisfaction_with_democracy ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "pooling")
+     
+liss.fit.pooling.control.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "pooling")
+
+# I display the results using a stargazer table
+# I needed to omit the results in the footer like adj.rsq because they were preventing me from 
+# adjusting the separation width between columns
+# I can't figure out how to add a split header above the dependent variables to separate between 
+# SHP and LISS
+# I will keep working on this
+
+stargazer(shp.fit.pooling.tig.ext, shp.fit.pooling.control.tig.ext, shp.fit.pooling.swd.ext, shp.fit.pooling.control.swd.ext, shp.fit.pooling.ls.ext, shp.fit.pooling.control.ls.ext, liss.fit.pooling.tig.ext, liss.fit.pooling.control.tig.ext, liss.fit.pooling.swd.ext, liss.fit.pooling.control.swd.ext, liss.fit.pooling.ls.ext, liss.fit.pooling.control.ls.ext,
+          type = "latex",
+          out="./extension-table-1.tex",
+          omit.stat=c("LL","ser","f","adj.rsq"),
+          header = FALSE,
+          font.size = "tiny",
+          digits = 2,
+          column.sep.width = "-10pt",
+          title = "SHP Switzerland and LISS Netherlands: pooled models with lagged unemployment",
+          column.labels = c("(M1)", "(M2)", "(M3)", "(M4)", "(M5)", "(M6)", "(M7)", "(M8)", "(M9)", "(M10)", "(M11)", "(M12)"), 
+          covariate.labels = c("Unemployed", "Lagged Unemployed", "Age", "Education", "Member", "UE:Lagged UE"),
+          dep.var.labels = c("trust in government", "statisfaction with democracy", "life satisfaction", "trust in government", "satisfaction with democracy", "life satisfaction"),
+          model.names = FALSE,
+          model.numbers = FALSE
+          )
+```
+
+```{r extension table2, results = 'asis'}
+
+# SHP
+# The same process as above but I used a fixed effects model instead of a pooled model
+# The only difference is I change model from "pooled" to "within"
+
+shp.fit.fe.tig.ext <- plm(trust_in_government ~ unemployed, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+   
+shp.fit.fe.swd.ext <- plm(satisfaction_with_democracy ~ unemployed, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+      
+shp.fit.fe.ls.ext <- plm(life_satisfaction ~ unemployed, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+    
+shp.fit.fe.control.tig.ext <- plm(trust_in_government ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+ 
+shp.fit.fe.control.swd.ext <- plm(satisfaction_with_democracy ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+     
+shp.fit.fe.control.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        index = c("unit", "time"),
+                        model = "within")
+
+# LISS
+# Same as for SHP but with the LISS data
+
+liss.fit.fe.tig.ext <- plm(trust_in_government ~ unemployed, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+   
+liss.fit.fe.swd.ext <- plm(satisfaction_with_democracy ~ unemployed, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+      
+liss.fit.fe.ls.ext <- plm(life_satisfaction ~ unemployed, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+    
+liss.fit.fe.control.tig.ext <- plm(trust_in_government ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+ 
+liss.fit.fe.control.swd.ext <- plm(satisfaction_with_democracy ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+     
+liss.fit.fe.control.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        index = c("unit", "time"),
+                        model = "within")
+
+# Stargazer output with the same formatting as Table 3
+
+stargazer(shp.fit.fe.tig.ext, shp.fit.fe.control.tig.ext, shp.fit.fe.swd.ext, shp.fit.fe.control.swd.ext, shp.fit.fe.ls.ext, shp.fit.fe.control.ls.ext, liss.fit.fe.tig.ext, liss.fit.fe.control.tig.ext, liss.fit.fe.swd.ext, liss.fit.fe.control.swd.ext, liss.fit.fe.ls.ext, liss.fit.fe.control.ls.ext,
+          type = "latex",
+          out="./extension-table-2.tex",
+          omit.stat=c("LL","ser","f","adj.rsq"),
+          header = FALSE,
+          font.size = "tiny",
+          digits = 2,
+          label = "table-2",
+          column.sep.width = "-10pt",
+          title = "SHP Switzerland and LISS Netherlands: fixed effects models with lagged unemployment",
+          column.labels = c("(M13)", "(M14)", "(M15)", "(M16)", "(M17)", "(M18)", "(M19)", "(M20)", "(M21)", "(M22)", "(M23)", "(M24)"),
+          covariate.labels = c("Unemployed", "Lagged Unemployed", "Age", "Education", "Member", "UE:Lagged UE"),
+          dep.var.labels = c("trust in government", "statisfaction with democracy", "life satisfaction", "trust in government", "satisfaction with democracy", "life satisfaction"),
+          model.names = FALSE,
+          model.numbers = FALSE
+          )
+```
+
+```{r extension table3 data, include = FALSE}
+
+# SHP
+# Same regressions but this time with the weighted fixed effects
+# I didn't really understand how these were created so I largely mimicked what Bauer did in his
+# replication code
+
+shp.fit.wfe.tig.ext <- wfe(trust_in_government ~ unemployed, 
+                        data = shp,
+                        treat = "unemployed",
+                       unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+   
+shp.fit.wfe.swd.ext <- wfe(satisfaction_with_democracy ~ unemployed, 
+                        data = shp,
+                        treat = "unemployed",
+                       unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+      
+shp.fit.wfe.ls.ext <- wfe(life_satisfaction ~ unemployed, 
+                        data = shp,
+                        treat = "unemployed",
+                      unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+    
+shp.fit.wfe.control.tig.ext <- wfe(trust_in_government ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        treat = "unemployed",
+                        unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+ 
+shp.fit.wfe.control.swd.ext <- wfe(satisfaction_with_democracy ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        treat = "unemployed",
+                        unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+     
+shp.fit.wfe.control.ls.ext <- wfe(life_satisfaction ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = shp,
+                        treat = "unemployed",
+                        unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+
+# LISS
+# Same as SHP but with LISS data
+
+liss.fit.wfe.tig.ext <- wfe(trust_in_government ~ unemployed, 
+                        data = liss,
+                        treat = "unemployed",
+                        unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+   
+liss.fit.wfe.swd.ext <- wfe(satisfaction_with_democracy ~ unemployed, 
+                        data = liss,
+                        treat = "unemployed",
+                        unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+      
+liss.fit.wfe.ls.ext <- wfe(life_satisfaction ~ unemployed, 
+                        data = liss,
+                        treat = "unemployed",
+                       unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+    
+liss.fit.wfe.control.tig.ext <- wfe(trust_in_government ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        treat = "unemployed",
+                        unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+ 
+liss.fit.wfe.control.swd.ext <- wfe(satisfaction_with_democracy ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        treat = "unemployed",
+                        unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+     
+liss.fit.wfe.control.ls.ext <- wfe(life_satisfaction ~ unemployed * lagged_unemployed + age + education  + member, 
+                        data = liss,
+                        treat = "unemployed",
+                        unit.index = "unit", time.index = "time", method = "unit",
+               qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
+               White = TRUE, White.alpha = 0.05, verbose = TRUE)
+
+# The above regressions do not create an output that can be displayed through stargazer
+# Instead I needed to manually run the regression with the included weights and then manually
+# input those values into stargazer
+# Again, I didn't really know how to do this so I just followed what Bauer did.
+
+  regressors_int <- c("Unemployed", "Lagged") 
+  
+  regressors_cont <- c("Age", "Education", "Member")
+  
+  d <- as.data.frame(matrix(rnorm(10 * 7), nc = 7))
+  
+  dep.var1 <- "Trust_in_government"
+  
+  names(d) <- c(dep.var1, regressors_int, regressors_cont)
+  
+  f <- as.formula(paste(dep.var1, "~ 0 +", paste(regressors_int, collapse = "*"), "+", paste(regressors_cont, collapse = "+")))
+  
+  p1 <- lm(f, d)
+  
+  dep.var2 <- "Satisfaction_with_democracy"
+  
+  names(d) <- c(dep.var2, regressors_int, regressors_cont)
+  
+   f <- as.formula(paste(dep.var2, "~ 0 +", paste(regressors_int, collapse = "*"), "+", paste(regressors_cont, collapse = "+")))
+  
+  p2 <- lm(f, d)
+  
+  dep.var3 <- "Life_satisfaction"
+  
+  names(d) <- c(dep.var3, regressors_int, regressors_cont)
+  
+   f <- as.formula(paste(dep.var3, "~ 0 +", paste(regressors_int, collapse = "*"), "+", paste(regressors_cont, collapse = "+")))
+  
+  p3 <- lm(f, d)
+```
+
+
+```{r extension table3 output, results = 'asis'}
+
+# Stargazer output
+# I manually pull out the coefficient values from the regressions and add those to the
+# skeleton of the regression that was created above
+# I have to do this for each coefficient, each standard error, and each t and p value
+
+# Then I format the stargazer table in the same manner as the previous two
+
+  stargazer(p1, p1, p2, p2, p3, p3, p1, p1, p2, p2, p3, p3,
+    coef = list(as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,1]),
+                as.numeric(summary(shp.fit.wfe.control.tig.ext)[2]$coefficients[,1]),
+                as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,1]),
+                as.numeric(summary(shp.fit.wfe.control.swd.ext)[2]$coefficients[,1]),
+                as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,1]),
+                as.numeric(summary(shp.fit.wfe.control.ls.ext)[2]$coefficients[,1]),
+                
+                as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,1]),
+                as.numeric(summary(liss.fit.wfe.control.tig.ext)[2]$coefficients[,1]),
+                as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,1]),
+                as.numeric(summary(liss.fit.wfe.control.swd.ext)[2]$coefficients[,1]),
+                as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,1]),
+                as.numeric(summary(liss.fit.wfe.control.ls.ext)[2]$coefficients[,1])
+                
+                ),
+    se = list(as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,2]),
+                as.numeric(summary(shp.fit.wfe.control.tig.ext)[2]$coefficients[,2]),
+                as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,2]),
+                as.numeric(summary(shp.fit.wfe.control.swd.ext)[2]$coefficients[,2]),
+                as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,2]),
+                as.numeric(summary(shp.fit.wfe.control.ls.ext)[2]$coefficients[,2]),
+              
+                as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,2]),
+                as.numeric(summary(liss.fit.wfe.control.tig.ext)[2]$coefficients[,2]),
+                as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,2]),
+                as.numeric(summary(liss.fit.wfe.control.swd.ext)[2]$coefficients[,2]),
+                as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,2]),
+                as.numeric(summary(liss.fit.wfe.control.ls.ext)[2]$coefficients[,2])
+              ),
+    t = list(as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,3]),
+                as.numeric(summary(shp.fit.wfe.control.tig.ext)[2]$coefficients[,3]),
+                as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,3]),
+                as.numeric(summary(shp.fit.wfe.control.swd.ext)[2]$coefficients[,3]),
+                as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,3]),
+                as.numeric(summary(shp.fit.wfe.control.ls.ext)[2]$coefficients[,3]),
+             
+                as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,3]),
+                as.numeric(summary(liss.fit.wfe.control.tig.ext)[2]$coefficients[,3]),
+                as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,3]),
+                as.numeric(summary(liss.fit.wfe.control.swd.ext)[2]$coefficients[,3]),
+                as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,3]),
+                as.numeric(summary(liss.fit.wfe.control.ls.ext)[2]$coefficients[,3])
+             
+             ),  
+    p = list(as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,4]),
+                as.numeric(summary(shp.fit.wfe.control.tig.ext)[2]$coefficients[,4]),
+                as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,4]),
+                as.numeric(summary(shp.fit.wfe.control.swd.ext)[2]$coefficients[,4]),
+                as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,4]),
+                as.numeric(summary(shp.fit.wfe.control.ls.ext)[2]$coefficients[,4]),
+             
+                as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,4]),
+                as.numeric(summary(liss.fit.wfe.control.tig.ext)[2]$coefficients[,4]),
+                as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,4]),
+                as.numeric(summary(liss.fit.wfe.control.swd.ext)[2]$coefficients[,4]),
+                as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,4]),
+                as.numeric(summary(liss.fit.wfe.control.ls.ext)[2]$coefficients[,4])
+             ),  
+    type = "latex",
+    out="./extension-table-3.tex",
+    omit.stat = "all",
+    notes = "SEs in parentheses. Columns 25-30 are from the SHP survey and columns 31-36 are from the LISS survey.",
+    notes.append = TRUE,
+    font.size = "tiny",
+    digits = 2,
+    column.sep.width = "-10pt", 
+    title = "SHP Switzerland and LISS Netherlands: weighted fixed effects models",
+    digit.separator="",
+    rownames = FALSE,
+    column.labels = c("(M25)", "(M26)", "(M27)", "(M28)", "(M29)", "(M30)", "(M31)", "(M32)", "(M33)", "(M34)", "(M35)", "(M36)"), 
+    model.names = FALSE,
+    model.numbers = FALSE,
+    star.cutoffs=c(0.05,0.01,0.001),
+    covariate.labels = c("Unemployed", "Lagged Unemployed", "Age", "Education", "Member", "UE:Lagged UE"),
+    dep.var.labels = c("trust in government", "statisfaction with democracy", "life satisfaction", "trust in government", "satisfaction with democracy", "life satisfaction"),
+    header = FALSE
+    )  
+```
+

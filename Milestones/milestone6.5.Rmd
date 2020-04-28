@@ -1,0 +1,44 @@
+---
+title: "GOV 1006: Milestone 6.5"
+subtitle: "Paper Replication"
+author: "Pieter Quinton"
+date: "4/3/2020"
+output: 
+  bookdown::pdf_document2:
+    keep_tex: true
+bibliography: milestone5_bib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(stargazer)
+library(plyr)
+library(plm)
+library(wfe)
+library(tidyverse)
+```
+
+## Introduction
+
+The paper I have chosen for my replication project is entitled "Unemployment, Trust in Government, and Satisfaction with Democracy: An Empirical Investigation" (@bauer2018). ^[The replication materials for this paper and my subsequent analyses can be found at my [Github Repo](https://github.com/PGQuinton/gov1006-finalproject-2.0)] It was authored by Paul C. Bauer in 2018. The purpose of the paper is to evaluate how unemployment affects a person's trust in the government and their views towards democracy in general. Bauer begins with macro level data from the Netherlands and Switzerland to construct his analysis but expands to utilize panel data so as to evaluate the relationship on an individual level. 
+
+The aim of Bauer's paper is to show how unemployment influences a person's trust in government, satisfaction with democracy, and life satisfaction in general. Bauer also controls for variations in age, education, and party membership. Because the link between life satisfaction and unemployment is somewhat more widely studied, Bauer uses that as a base metric to evaluate the magnitude of the other effects upon. All three dependent variables (trust in government, satisfaction in democracy, and life satisfaction) are measured on a 1-10 scale with 0 indicating no trust or satisfaction and 10 indicating complete trust or satisfaction.
+
+Bauer finds that there is no consistent effect between unemployment and trust in the government or satisfaction with democracy. These findings contradict his initial hypothesis that unemployment would lead people to have lower levels of trust and satisfaction with the government and democratic institutions. However, Bauer does find that unemployment is negatively related to life satisfaction. People who are unemployed are generally less satisfied with their lives than those who are employed. This finding is consistent with previous research on the topic. Moving forward, Bauer hopes to increase the sample size of the studied group to further explore heterogenous treatment effects across various subgroups of individuals. For example, he hypothesizes that the effect of unemployment on attitudes may be greater among people traditionally disadvantaged in the labor market such as women and workers of a lower-class.
+
+The fundamental motivation beyond Bauer’s paper is to study how unemployment affects trust in government and satisfaction in democracy. The goal of my extension to provide further insights and clarity into that relationship. I intend build off the general models created by Bauer by including an interaction term between education and age in the regressions. As it stands, Bauer uses an additive regression with age, education, and membership as the controls. Given the entirety of the dataset is used in the current analysis, there is a limitation as to what is available for my extension. However, I feel that the addition of an interaction term between education and age could prove to be a valuable contribution to the models presented in the paper. My assumption is that there could be heterogeneous effects of education on the relationship between unemployment and trust in government or satisfaction with democracy depending on one's age. This proposed interaction is relatively straight forward.
+
+Though the inclusion of the interaction is valuable, I feel there is an even more important extension I can attach to Bauer’s paper. Because his paper utilizes panel data, it tracks households across time. He mentions a desire to explore how the effects may differ for people experiencing long-term versus short-term unemployment. My hope is to analyze the data and identify households with multi-year unemployment reports or consistent, though not continuous, reports of unemployment across a period of time. By identifying these households, I would like to test how their unemployment experiences effect their views on democracy and the government and compare that to households with one-off unemployment and households without unemployment. My hypothesis is in line with Bauer’s. I predict that households that are experiencing long-term or more frequent unemployment may feel more disheartened with the current state of government than households with a single year of unemployment or households without unemployment. 
+
+I’m still working through my exact plan of action for completing the long-term vs. short-term unemployment extension. However, my initial thoughts suggest that I will create a new variable indicating whether someone had been unemployed the year before. That variable can be added to the regression as a control. I am also thinking about creating a variable with the number of years a household reported being unemployed during the reporting and attaching that to the regression. I may end up running separate regressions so to avoid overfitting the data but we will see. 
+
+
+## Literature Review
+
+The impetus for Bauer's paper relies on the fundamental assumption that should a person blame the government or its institutions for their current situation in life, a decrease in the quality of that situation would result in a corresponding decrease in their satisfaction with the government. This assumption stems from the work of John Hudson who examined the relationship between trust in institutions and one's subjective well-being (@hudson2006). Research shows a statistically significant relationship between one's employment status and their life satisfaction (@jimeno2007). As one moves from employed to unemployed, their life satisfaction tends to decrease. Given the two findings, the aim of Bauer's work is to test the hypothesis that unemployment leads to lower levels of trust in government and satisfaction with democracy.  
+
+
+\newpage
+
+## References
