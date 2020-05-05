@@ -15,6 +15,7 @@ library(stargazer)
 library(plyr)
 library(plm)
 library(wfe)
+library(berryFunctions)
 library(tidyverse)
 ```
 
@@ -63,17 +64,17 @@ shp <- shp %>%
 # The regression uses a pooling technique (plm) to track observations across units (households) 
 # over time
 
-shp.fit.pooling.tig.ext <- plm(trust_in_government ~ unemployed, 
+shp.fit.pooling.tig.ext <- plm(trust_in_government ~ unemployed * lagged_unemployed, 
                         data = shp,
                         index = c("unit", "time"),
                         model = "pooling")
    
-shp.fit.pooling.swd.ext <- plm(satisfaction_with_democracy ~ unemployed, 
+shp.fit.pooling.swd.ext <- plm(satisfaction_with_democracy ~ unemployed * lagged_unemployed, 
                         data = shp,
                         index = c("unit", "time"),
                         model = "pooling")
       
-shp.fit.pooling.ls.ext <- plm(life_satisfaction ~ unemployed, 
+shp.fit.pooling.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_unemployed, 
                         data = shp,
                         index = c("unit", "time"),
                         model = "pooling")
@@ -96,17 +97,17 @@ shp.fit.pooling.control.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_un
 # LISS
 # Same as above but with the LISS data instead of the SHP data
 
-liss.fit.pooling.tig.ext <- plm(trust_in_government ~ unemployed, 
+liss.fit.pooling.tig.ext <- plm(trust_in_government ~ unemployed * lagged_unemployed, 
                         data = liss,
                         index = c("unit", "time"),
                         model = "pooling")
    
-liss.fit.pooling.swd.ext <- plm(satisfaction_with_democracy ~ unemployed, 
+liss.fit.pooling.swd.ext <- plm(satisfaction_with_democracy ~ unemployed * lagged_unemployed, 
                         data = liss,
                         index = c("unit", "time"),
                         model = "pooling")
       
-liss.fit.pooling.ls.ext <- plm(life_satisfaction ~ unemployed, 
+liss.fit.pooling.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_unemployed, 
                         data = liss,
                         index = c("unit", "time"),
                         model = "pooling")
@@ -143,10 +144,12 @@ stargazer(shp.fit.pooling.tig.ext, shp.fit.pooling.control.tig.ext, shp.fit.pool
           column.sep.width = "-10pt",
           title = "SHP Switzerland and LISS Netherlands: pooled models with lagged unemployment",
           column.labels = c("(M1)", "(M2)", "(M3)", "(M4)", "(M5)", "(M6)", "(M7)", "(M8)", "(M9)", "(M10)", "(M11)", "(M12)"), 
-          covariate.labels = c("Unemployed", "Lagged Unemployed", "Age", "Education", "Member", "UE:Lagged UE"),
+          covariate.labels = c("Unemployed", "Lagged Unemployed", "UE:Lagged UE", "Age", "Education", "Member"),
           dep.var.labels = c("trust in government", "statisfaction with democracy", "life satisfaction", "trust in government", "satisfaction with democracy", "life satisfaction"),
+          dep.var.caption = c("SHP, LISS"),
           model.names = FALSE,
-          model.numbers = FALSE
+          model.numbers = FALSE,
+          order = c(1,2,6,3,4,5)
           )
 ```
 
@@ -156,17 +159,17 @@ stargazer(shp.fit.pooling.tig.ext, shp.fit.pooling.control.tig.ext, shp.fit.pool
 # The same process as above but I used a fixed effects model instead of a pooled model
 # The only difference is I change model from "pooled" to "within"
 
-shp.fit.fe.tig.ext <- plm(trust_in_government ~ unemployed, 
+shp.fit.fe.tig.ext <- plm(trust_in_government ~ unemployed * lagged_unemployed, 
                         data = shp,
                         index = c("unit", "time"),
                         model = "within")
    
-shp.fit.fe.swd.ext <- plm(satisfaction_with_democracy ~ unemployed, 
+shp.fit.fe.swd.ext <- plm(satisfaction_with_democracy ~ unemployed * lagged_unemployed, 
                         data = shp,
                         index = c("unit", "time"),
                         model = "within")
       
-shp.fit.fe.ls.ext <- plm(life_satisfaction ~ unemployed, 
+shp.fit.fe.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_unemployed, 
                         data = shp,
                         index = c("unit", "time"),
                         model = "within")
@@ -189,17 +192,17 @@ shp.fit.fe.control.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_unemplo
 # LISS
 # Same as for SHP but with the LISS data
 
-liss.fit.fe.tig.ext <- plm(trust_in_government ~ unemployed, 
+liss.fit.fe.tig.ext <- plm(trust_in_government ~ unemployed * lagged_unemployed, 
                         data = liss,
                         index = c("unit", "time"),
                         model = "within")
    
-liss.fit.fe.swd.ext <- plm(satisfaction_with_democracy ~ unemployed, 
+liss.fit.fe.swd.ext <- plm(satisfaction_with_democracy ~ unemployed * lagged_unemployed, 
                         data = liss,
                         index = c("unit", "time"),
                         model = "within")
       
-liss.fit.fe.ls.ext <- plm(life_satisfaction ~ unemployed, 
+liss.fit.fe.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_unemployed, 
                         data = liss,
                         index = c("unit", "time"),
                         model = "within")
@@ -232,10 +235,11 @@ stargazer(shp.fit.fe.tig.ext, shp.fit.fe.control.tig.ext, shp.fit.fe.swd.ext, sh
           column.sep.width = "-10pt",
           title = "SHP Switzerland and LISS Netherlands: fixed effects models with lagged unemployment",
           column.labels = c("(M13)", "(M14)", "(M15)", "(M16)", "(M17)", "(M18)", "(M19)", "(M20)", "(M21)", "(M22)", "(M23)", "(M24)"),
-          covariate.labels = c("Unemployed", "Lagged Unemployed", "Age", "Education", "Member", "UE:Lagged UE"),
+          covariate.labels = c("Unemployed", "Lagged Unemployed", "UE:Lagged UE", "Age", "Education", "Member"),
           dep.var.labels = c("trust in government", "statisfaction with democracy", "life satisfaction", "trust in government", "satisfaction with democracy", "life satisfaction"),
           model.names = FALSE,
-          model.numbers = FALSE
+          model.numbers = FALSE,
+          order = c(1,2,6,3,4,5)
           )
 ```
 
@@ -246,21 +250,21 @@ stargazer(shp.fit.fe.tig.ext, shp.fit.fe.control.tig.ext, shp.fit.fe.swd.ext, sh
 # I didn't really understand how these were created so I largely mimicked what Bauer did in his
 # replication code
 
-shp.fit.wfe.tig.ext <- wfe(trust_in_government ~ unemployed, 
+shp.fit.wfe.tig.ext <- wfe(trust_in_government ~ unemployed * lagged_unemployed, 
                         data = shp,
                         treat = "unemployed",
                        unit.index = "unit", time.index = "time", method = "unit",
                qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
                White = TRUE, White.alpha = 0.05, verbose = TRUE)
    
-shp.fit.wfe.swd.ext <- wfe(satisfaction_with_democracy ~ unemployed, 
+shp.fit.wfe.swd.ext <- wfe(satisfaction_with_democracy ~ unemployed * lagged_unemployed, 
                         data = shp,
                         treat = "unemployed",
                        unit.index = "unit", time.index = "time", method = "unit",
                qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
                White = TRUE, White.alpha = 0.05, verbose = TRUE)
       
-shp.fit.wfe.ls.ext <- wfe(life_satisfaction ~ unemployed, 
+shp.fit.wfe.ls.ext <- wfe(life_satisfaction ~ unemployed * lagged_unemployed, 
                         data = shp,
                         treat = "unemployed",
                       unit.index = "unit", time.index = "time", method = "unit",
@@ -291,21 +295,21 @@ shp.fit.wfe.control.ls.ext <- wfe(life_satisfaction ~ unemployed * lagged_unempl
 # LISS
 # Same as SHP but with LISS data
 
-liss.fit.wfe.tig.ext <- wfe(trust_in_government ~ unemployed, 
+liss.fit.wfe.tig.ext <- wfe(trust_in_government ~ unemployed * lagged_unemployed, 
                         data = liss,
                         treat = "unemployed",
                         unit.index = "unit", time.index = "time", method = "unit",
                qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
                White = TRUE, White.alpha = 0.05, verbose = TRUE)
    
-liss.fit.wfe.swd.ext <- wfe(satisfaction_with_democracy ~ unemployed, 
+liss.fit.wfe.swd.ext <- wfe(satisfaction_with_democracy ~ unemployed * lagged_unemployed, 
                         data = liss,
                         treat = "unemployed",
                         unit.index = "unit", time.index = "time", method = "unit",
                qoi = "ate", estimator =NULL, hetero.se=TRUE, auto.se=TRUE,
                White = TRUE, White.alpha = 0.05, verbose = TRUE)
       
-liss.fit.wfe.ls.ext <- wfe(life_satisfaction ~ unemployed, 
+liss.fit.wfe.ls.ext <- wfe(life_satisfaction ~ unemployed * lagged_unemployed, 
                         data = liss,
                         treat = "unemployed",
                        unit.index = "unit", time.index = "time", method = "unit",
@@ -370,6 +374,37 @@ liss.fit.wfe.control.ls.ext <- wfe(life_satisfaction ~ unemployed * lagged_unemp
 ```
 
 
+```{r stargazer data}
+wfe_regression_data <- data.frame(
+  c1 = as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,1]),
+  c2 = as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,1]),
+  c3 = as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,1]),
+  c4 = as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,1]),
+  c5 = as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,1]),
+  c6 = as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,1]),
+  se1 = as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,2]),
+  se2 = as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,2]),
+  se3 = as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,2]),
+  se4 = as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,2]),
+  se5 = as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,2]),
+  se6 = as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,2]),
+  t1 = as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,3]),
+  t2 = as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,3]),
+  t3 = as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,3]),
+  t4 = as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,3]),
+  t5 = as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,3]),
+  t6 = as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,3]),
+  p1 = as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,4]),
+  p2 = as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,4]),
+  p3 = as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,4]),
+  p4 = as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,4]),
+  p5 = as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,4]),
+  p6 = as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,4])
+) %>%
+  insertRows(3:5)
+```
+
+
 ```{r extension table3 output, results = 'asis'}
 
 # Stargazer output
@@ -380,62 +415,63 @@ liss.fit.wfe.control.ls.ext <- wfe(life_satisfaction ~ unemployed * lagged_unemp
 # Then I format the stargazer table in the same manner as the previous two
 
   stargazer(p1, p1, p2, p2, p3, p3, p1, p1, p2, p2, p3, p3,
-    coef = list(as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,1]),
+    order = c(1,2,6,3,4,5),
+    coef = list(wfe_regression_data$c1,
                 as.numeric(summary(shp.fit.wfe.control.tig.ext)[2]$coefficients[,1]),
-                as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,1]),
+                wfe_regression_data$c2,
                 as.numeric(summary(shp.fit.wfe.control.swd.ext)[2]$coefficients[,1]),
-                as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,1]),
+                wfe_regression_data$c3,
                 as.numeric(summary(shp.fit.wfe.control.ls.ext)[2]$coefficients[,1]),
                 
-                as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,1]),
+                wfe_regression_data$c4,
                 as.numeric(summary(liss.fit.wfe.control.tig.ext)[2]$coefficients[,1]),
-                as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,1]),
+                wfe_regression_data$c5,
                 as.numeric(summary(liss.fit.wfe.control.swd.ext)[2]$coefficients[,1]),
-                as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,1]),
+                wfe_regression_data$c6,
                 as.numeric(summary(liss.fit.wfe.control.ls.ext)[2]$coefficients[,1])
                 
                 ),
-    se = list(as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,2]),
+    se = list(wfe_regression_data$se1,
                 as.numeric(summary(shp.fit.wfe.control.tig.ext)[2]$coefficients[,2]),
-                as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,2]),
+                wfe_regression_data$se2,
                 as.numeric(summary(shp.fit.wfe.control.swd.ext)[2]$coefficients[,2]),
-                as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,2]),
+                wfe_regression_data$se3,
                 as.numeric(summary(shp.fit.wfe.control.ls.ext)[2]$coefficients[,2]),
               
-                as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,2]),
+                wfe_regression_data$se4,
                 as.numeric(summary(liss.fit.wfe.control.tig.ext)[2]$coefficients[,2]),
-                as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,2]),
+                wfe_regression_data$se5,
                 as.numeric(summary(liss.fit.wfe.control.swd.ext)[2]$coefficients[,2]),
-                as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,2]),
+                wfe_regression_data$se6,
                 as.numeric(summary(liss.fit.wfe.control.ls.ext)[2]$coefficients[,2])
               ),
-    t = list(as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,3]),
+    t = list(wfe_regression_data$t1,
                 as.numeric(summary(shp.fit.wfe.control.tig.ext)[2]$coefficients[,3]),
-                as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,3]),
+                wfe_regression_data$t2,
                 as.numeric(summary(shp.fit.wfe.control.swd.ext)[2]$coefficients[,3]),
-                as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,3]),
+                wfe_regression_data$t3,
                 as.numeric(summary(shp.fit.wfe.control.ls.ext)[2]$coefficients[,3]),
              
-                as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,3]),
+                wfe_regression_data$t4,
                 as.numeric(summary(liss.fit.wfe.control.tig.ext)[2]$coefficients[,3]),
-                as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,3]),
+                wfe_regression_data$t5,
                 as.numeric(summary(liss.fit.wfe.control.swd.ext)[2]$coefficients[,3]),
-                as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,3]),
+                wfe_regression_data$t6,
                 as.numeric(summary(liss.fit.wfe.control.ls.ext)[2]$coefficients[,3])
              
              ),  
-    p = list(as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,4]),
+    p = list(wfe_regression_data$p1,
                 as.numeric(summary(shp.fit.wfe.control.tig.ext)[2]$coefficients[,4]),
-                as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,4]),
+                wfe_regression_data$p2,
                 as.numeric(summary(shp.fit.wfe.control.swd.ext)[2]$coefficients[,4]),
-                as.numeric(summary(shp.fit.wfe.ls.ext)[2]$coefficients[,4]),
+                wfe_regression_data$p3,
                 as.numeric(summary(shp.fit.wfe.control.ls.ext)[2]$coefficients[,4]),
              
-                as.numeric(summary(liss.fit.wfe.tig.ext)[2]$coefficients[,4]),
+                wfe_regression_data$p4,
                 as.numeric(summary(liss.fit.wfe.control.tig.ext)[2]$coefficients[,4]),
-                as.numeric(summary(liss.fit.wfe.swd.ext)[2]$coefficients[,4]),
+                wfe_regression_data$p5,
                 as.numeric(summary(liss.fit.wfe.control.swd.ext)[2]$coefficients[,4]),
-                as.numeric(summary(liss.fit.wfe.ls.ext)[2]$coefficients[,4]),
+                wfe_regression_data$p6,
                 as.numeric(summary(liss.fit.wfe.control.ls.ext)[2]$coefficients[,4])
              ),  
     type = "latex",
@@ -453,7 +489,7 @@ liss.fit.wfe.control.ls.ext <- wfe(life_satisfaction ~ unemployed * lagged_unemp
     model.names = FALSE,
     model.numbers = FALSE,
     star.cutoffs=c(0.05,0.01,0.001),
-    covariate.labels = c("Unemployed", "Lagged Unemployed", "Age", "Education", "Member", "UE:Lagged UE"),
+    covariate.labels = c("Unemployed", "Lagged Unemployed", "UE:Lagged UE", "Age", "Education", "Member"),
     dep.var.labels = c("trust in government", "statisfaction with democracy", "life satisfaction", "trust in government", "satisfaction with democracy", "life satisfaction"),
     header = FALSE
     )  

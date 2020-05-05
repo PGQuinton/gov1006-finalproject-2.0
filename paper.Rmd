@@ -1,0 +1,99 @@
+---
+title: "Unemployment Effects"
+subtitle: "GOV 1006: Paper Replication"
+author: "Pieter Quinton"
+date: "4/17/2020"
+abstract: "Bauer (2018) finds that there is no consistent relationship between unemployment and one's trust in government or their satisfaction with democracy. I was able to completely replicate the majority of his findings aside from a summary table of the data. My extension evaluates how consistent or long-term unemployment may impact one's views. Rather than examining the effects of just a single year of unemployment, as Bauer did, I track unemployement trends over longer periods of time to see if extended periods of unemployment have a stronger impact on one's feelings towards the government and its institutions than shorter periods of unemployment do."
+output: 
+  bookdown::pdf_document2:
+    keep_tex: true
+    toc: no
+document_class: article
+bibliography: milestone5_bib.bib
+mainfont: Wingdings
+sansfont: Wingdings
+fontsize: 12pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(rsconnect)
+library(stargazer)
+library(plyr)
+library(plm)
+library(wfe)
+library(tidyverse)
+```
+
+# Introduction
+
+"Unemployment, Trust in Government, and Satisfaction with Democracy: An Empirical Investigation", authored by Paul Bauer, explores how unemployment affects a person's trust in the government and their views towards democracy in general (@bauer2018). Bauer utilizes panel data from two household surveys, one in Switzerland and one in the Netherlands, to evaluate the relationship between unemployment status and feelings towards government on an individual level. Due to prior findings on the link between life satisfaction and unemployment, Bauer uses that relationship as a base metric to evaluate the magnitude of the other effects upon. Bauer finds that a household's unemployment status has no consistent effect on either trust in the government or satisfaction with democracy. These findings contradict his initial hypothesis that unemployment would lead people to have lower levels of trust and satisfaction with the government and democratic institutions. However, Bauer does find that unemployment is negatively associated with life satisfaction. People who are unemployed are generally less satisfied with their lives than those who are employed. This finding is consistent with previous research on the topic (@hudson2006; @jimeno2007). Moving forward, Bauer indicates an interest in increasing the sample size of the studied group to further explore heterogenous treatment effects across various subgroups of individuals. For example, he hypothesizes that the effect of unemployment on attitudes may be greater among people traditionally disadvantaged in the labor market such as women and workers of a lower-class.
+
+Starting with the replication materials provided by Bauer through the Harvard Dataverse, I worked to replicate the findings of Bauer's paper (@dataverse).^[The replication materials for this paper and my subsequent analyses can be found at my [Github Repo](https://github.com/PGQuinton/gov1006-finalproject-2.0) and the published paper is available through [bookdown](https://bookdown.org/pquinton/milestone7/milestone7.pdf).] As Bauer did, I conducted my replication and subsequent extension in RStudio (@RStudio). Thanks to Bauer's well documented code and use of RStudio, my replication process was relatively straight forward though there were a couple of discrepencies which I will go into in further detail in the "Replication" section of this paper.
+
+In addition to replicating Bauer's work, I conducted an extension utilizing both his data and models to begin to understand a potential variation in effect between short-term and long-term unemployment. Prior to conducting the extension, I began with the hypothesis that households experiencing longer bouts of unemployment would be more likely to harbor negative feelings towards the current system of government than those with singular years of unemployment. I built my extension off the existing work from Bauer, making a slight tweak to his models. Taking advantage of the panel data, I created a new variable indicating whether a household was unemployed in the previous year. I included this variable in Bauer's regression model as an interaction term with the existing unemployment variable. The inclusion of the lagged unemployment variable allowed me to test the effect of two years of continuous unemployment on a household's feelings towards government and democracy.
+
+Despite, the inclusion of lagged unemployment, I observed no meaningful and consistent changes to the regression model results. The interaction between unemployment and lagged unemployment was not statistically significant, contradicting my initial hypothesis. The lagged unemployment variable was statistically significant, on its own, but not in the most robust model, weighted fixed effects. Again, I echo Bauer's concerns that more data is needed to concretely test the differences in effect between long-term and short-term unemployment. However, the heterogenous effect sizes for lagged unemployment across model types indicates that this is a relationship worth studying in more detail.  
+
+# Literature Review
+
+The impetus for Bauer's paper relies on the fundamental assumption that should a person blame the government or its institutions for their current situation in life, a decrease in the quality of that situation would result in a corresponding decrease in their satisfaction with the government. This assumption stems from the work of John Hudson who examined the relationship between trust in institutions and one's subjective well-being (@hudson2006). Research shows a statistically significant relationship between one's employment status and their life satisfaction (@jimeno2007). As one moves from employed to unemployed, their life satisfaction tends to decrease. Given the two findings, the aim of Bauer's work is to test the hypothesis that unemployment leads to lower levels of trust in government and satisfaction with democracy.
+
+Bauer's work draws on the theoretical concepts of James Laurence who argued that the loss of one's job may lead to a deterioration of their trust in the economic system (@laurence2015). Furthermore, the loss of one's job brings people into closer connect with bureaucratic institutions and government social programs. Such interactions may incite a frusturation with the way in which the government supports individuals experiencing joblessness and could lead to a dissolusionment with the current government (@waters2007). It is from this theoretical basis that Bauer hypothesizes unemployment to be negatively associated with trust in government and satisfaction with democracy. There is, however, an alternative theory. Should a person feel supported and appreciated by the government and its programs during their period of joblessness, their feelings towards the government may not change or may even improve (@roth2009).
+
+# Replication
+
+Using Bauer's data and original code, I worked to replicate five of the tables from his publication. Of the five, Tables 1,3,4,5 were replicable with no discrepencies. My results matched his exactly. However, my replication of Table 2 did not completely match that of the paper. In reviewing the code for Bauer's paper, it appears as though he inputs that table from another source. In his replication material, I can find where Bauer creates each of the other tables but not Table 2. Nonetheless, I attempted to replicate the table and largely suceeded. Table 2 is a summary table of the data indicating years that data is present from each of the survey questions. Utilizing the data provided by Bauer, I created a similar version of that table. However, there were two variations between our tables. Bauer's table lists the absence of results for the SHP Life Satisfaction survey in 2010 whereas I have results and his lists the presence of results for the SHP Satisfaction with democracy survey in 2012 whereas in mine that is absent. These discrepencies need to be explored further especially considering I was able to get the same regression outputs as Bauer using the data he provided.
+
+# Extension
+
+The fundamental motivation beyond Bauer’s paper is to study how unemployment affects trust in government and satisfaction with democracy. The goal of my extension to provide further insights and clarity into that relationship. 
+
+Because Bauer utilizes panel data, he is able to track households across time, providing an opportunity to analyze multi-year changes. However, Bauer, in his conclusion, discusses the limitations of the paper and a desire to explore how the effects may differ for people experiencing long-term versus short-term unemployment. Though Bauer, correctly, acknowledges more data is needed to robustly analysize long-term verus short-term unemployment, I decided to utlize the data provided to get a sense of the relationship. 
+
+My aim was to analyze the data and identify households with multi-year unemployment reports or consistent, though not continuous, reports of unemployment across a period of time. By identifying these households, I intended to test how their unemployment experiences effected their views on democracy and the government and compare that to households with singular reports of unemployment and households without unemployment. My hypothesis was in line with Bauer’s. I predicted that households experiencing long-term or more frequent unemployment may feel more disheartened with the current state of government than households with a single year of unemployment or households without unemployment. 
+
+To actually conduct the extension, I created a new variable indicating whether someone had been unemployed the year before, lagged unemployment. I added the lagged unemployment variable to the regressions conducted by Bauer as an interaction term with unemployment. The coefficient on the interaction term represents a household with unemployment in the present year and in the year before. The interaction coefficient is the one I am most interested in. As Bauer did, I ran three sets of linear regressions with the added lagged unemployment term: a standard pooled model, a fixed effects model, and a weighted fixed effects model.
+
+The first regression, displayed in Table 1, illustrates the results of the pooled model. In that model, unemployed is statistically significant across all questions of both surveys. Lagged unemployed is statistically significant across all questions from the SHP survey but is only statistically significant for the life satisfaction question of the LISS survey. The interaction term is only statistically significant for the life statisfaction question of each survey. 
+
+\input{./extension-table-1.tex}
+
+Because the data provided does not provide the ability to control for all observable and unobservable confounding variables arising from time and household variation, the second regression, displayed in Table 2, makes use of a fixed effects model. There are strong differences between the pooled model and the fixed effects model. The size of the coefficients has dropped across all of the covariates by a considerable amount. As such, fewer coefficients are statistically significant. Unemployed is no longer statistically significant, aside from the life satisfaction questions. Lagged unemployed remains statistically significant for satisfaction with democracy while the interaction term is only statistically significant for life satisfaction. 
+
+\input{./extension-table-2.tex}
+
+Finally, I conduct the regression analysis using the weighted fixed effects model used by Bauer. The coefficients have remained similar, in size, to the fixed effects model. However, lagged unemployed and the interaction between unemployed and lagged unemployed are no longer statistically significant for any question. Unemployed is statistically significant for the life satisfaction question.
+
+\input{./extension-table-3.tex}
+
+My findings largely confirmed Bauer's. Unemployment does not appear to have a statistically significant effect on trust in government or satisfaction with democracy. The interaction term between unemployment in the present year and unemployment in the previous year was not statistically significant. The lack of statistical significance indicates that the aggregation of two years of unemployment does not create significant impacts on one's views towards government and democracy. However, in the dataset from Switzerland (SHP) there was a statistically significant negative relationship between satisfaction with democracy and lagged unemployment. This relationship is only present in the pooled model and the fixed effects model. Because the relationship between lagged unemployment and satisfaction with democracy is not present in the weighted fixed effects model, supposedly the most robust model, it is unclear how strong that finding is. 
+
+# Conclusion
+
+In 2018, Paul Bauer published the paper, "Unemployment, Trust in Government, and Satisfaction with Democracy: An Empirical Investigation" in which he explored the relationship between a person's unemployment status and their trust in government and satisfaction with democracy (@bauer2018). Using data from the SHP and LISS household surveys, Bauer found that there was no statistically significant effect between unemployment and either trust in government or statisfaction with democracy. These findings challenged his hypothesis that short-term unemployment would people to loss faith in the government and its institutions. Bauer's hypothesis was based on theory and prior findings of a link between unemployment and decreasing life satisfcation.
+
+Using RStudio, I took Bauer's data and models and attempted to explore the possibility of heterogenous effects between short-term and long-term unemployment. I took advantage of the panel data to create a variable called lagged unemployment, which indicated whether a household had been unemployed in the previous year. I included the lagged unemployment variable in Bauer's regression models as an interaction term with unemployment. I was very interested in the coefficient on the interaction term (signifying a household that was unemployed in both the previous year and the current year). I assumed, like Bauer, that the extended period of unemployment would lead to a decrease in their trust in government and satisfaction with democracy. The results from the regressions disproved that hypothesis and reaffirmed Bauer's findings. Again, there were no statistically significant effects from the longer period of unemployment on either trust in government or satisfaction with democracy.
+
+Both my results, and Bauer's, can offer encouraging interpretations. As Felix Roth theorized, positive interactions with government programs and institutions arising from one's unemployment may in fact lead to improvements in that individuals feelings towards the government, or at the very least no real change (@roth2009). It is possible that the lack of statistically significant effects in the regression models is due to highly effective government programs for those experiencing joblessness in Switzerland and the Netherlands. However, it could also be due to limitations with the data. Regardless, futher studies making use of longer term data across several countries are warranted to more conclusively understand the link between unemployment and feelings towards government.
+
+\newpage
+
+# Appendix
+
+My replications of the first two tables in Bauer's paper are below.
+
+\input{./replication-table-1.tex}
+
+\input{./replication-table-2.tex}
+
+The actual tables created by Bauer are below. As you can see, there are discrepencies between my Table 2 and his.
+
+\input{./table-1.tex}
+
+\input{./table-2.tex}
+
+\newpage
+
+# References
