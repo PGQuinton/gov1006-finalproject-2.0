@@ -16,6 +16,7 @@ library(plyr)
 library(plm)
 library(wfe)
 library(berryFunctions)
+library(kableExtra)
 library(tidyverse)
 ```
 
@@ -136,6 +137,7 @@ liss.fit.pooling.control.ls.ext <- plm(life_satisfaction ~ unemployed * lagged_u
 
 stargazer(shp.fit.pooling.tig.ext, shp.fit.pooling.control.tig.ext, shp.fit.pooling.swd.ext, shp.fit.pooling.control.swd.ext, shp.fit.pooling.ls.ext, shp.fit.pooling.control.ls.ext, liss.fit.pooling.tig.ext, liss.fit.pooling.control.tig.ext, liss.fit.pooling.swd.ext, liss.fit.pooling.control.swd.ext, liss.fit.pooling.ls.ext, liss.fit.pooling.control.ls.ext,
           type = "latex",
+          table.placement = "H",
           out="./extension-table-1.tex",
           omit.stat=c("LL","ser","f","adj.rsq"),
           header = FALSE,
@@ -146,10 +148,10 @@ stargazer(shp.fit.pooling.tig.ext, shp.fit.pooling.control.tig.ext, shp.fit.pool
           column.labels = c("(M1)", "(M2)", "(M3)", "(M4)", "(M5)", "(M6)", "(M7)", "(M8)", "(M9)", "(M10)", "(M11)", "(M12)"), 
           covariate.labels = c("Unemployed", "Lagged Unemployed", "UE:Lagged UE", "Age", "Education", "Member"),
           dep.var.labels = c("trust in government", "statisfaction with democracy", "life satisfaction", "trust in government", "satisfaction with democracy", "life satisfaction"),
-          dep.var.caption = c("SHP, LISS"),
           model.names = FALSE,
           model.numbers = FALSE,
-          order = c(1,2,6,3,4,5)
+          order = c(1,2,6,3,4,5),
+          notes = "\\parbox[t]{15cm}{The above table presents the results from a series of pooled effects regressions examining the relationship between unemployment and trust in government, satisfaction with democracy, and life satisfaction. The regression includes an interaction between unemployment (present year) and lagged unemployment (previous year) to test for the possibility of hetergenous effects between short and long-term unemployment. Columns 1-6 are regression outputs from the SHP survey data while columns 7-12 are regression outputs from the LISS survey data. Looking at the results, the 'Unemployed' coefficients are statistically across all questions for both surveys with and without controls. However, the lagged unemployment coefficient is only statistically significant for the SHP data and the interaction coefficient is only significant for the life satisfaction question, for both surveys. }"
           )
 ```
 
@@ -239,7 +241,8 @@ stargazer(shp.fit.fe.tig.ext, shp.fit.fe.control.tig.ext, shp.fit.fe.swd.ext, sh
           dep.var.labels = c("trust in government", "statisfaction with democracy", "life satisfaction", "trust in government", "satisfaction with democracy", "life satisfaction"),
           model.names = FALSE,
           model.numbers = FALSE,
-          order = c(1,2,6,3,4,5)
+          order = c(1,2,6,3,4,5),
+          notes = "\\parbox[t]{15cm}{The above table presents the results from a series of fixed effects regressions examining the relationship between unemployment and trust in government, satisfaction with democracy, and life satisfaction. The regression includes an interaction between unemployment (present year) and lagged unemployment (previous year) to test for the possibility of hetergenous effects between short and long-term unemployment. Columns 13-18 are regression outputs from the SHP survey data while columns 19-24 are regression outputs from the LISS survey data. Looking at the results, the 'Unemployed' coefficients are statistically significant for the life satisfaction question for both surveys with and without controls. However, the lagged unemployment coefficient is only statistically significant for the satisfaction with democracy question on the SHP survey while the interaction coefficient is significant for the satisfaction with democracy on the LISS survey.}"
           )
 ```
 
@@ -415,7 +418,6 @@ wfe_regression_data <- data.frame(
 # Then I format the stargazer table in the same manner as the previous two
 
   stargazer(p1, p1, p2, p2, p3, p3, p1, p1, p2, p2, p3, p3,
-    order = c(1,2,6,3,4,5),
     coef = list(wfe_regression_data$c1,
                 as.numeric(summary(shp.fit.wfe.control.tig.ext)[2]$coefficients[,1]),
                 wfe_regression_data$c2,
@@ -477,8 +479,7 @@ wfe_regression_data <- data.frame(
     type = "latex",
     out="./extension-table-3.tex",
     omit.stat = "all",
-    notes = "SEs in parentheses. Columns 25-30 are from the SHP survey and columns 31-36 are from the LISS survey.",
-    notes.append = TRUE,
+    notes = "\\parbox[t]{15cm}{The above table presents the results from a series of weighted pooled effects regressions examining the relationship between unemployment and trust in government, satisfaction with democracy, and life satisfaction. The regression includes an interaction between unemployment (present year) and lagged unemployment (previous year) to test for the possibility of hetergenous effects between short and long-term unemployment. Columns 25-30 are regression outputs from the SHP survey data while columns 31-36 are regression outputs from the LISS survey data. Looking at the results, the 'Unemployed' coefficient is statistically significant for the life satisfaction question on both surveys with and without controls. However, the lagged unemployment coefficient and the interaction coefficient are not statistically significant for any of the questions on either survey.}",
     font.size = "tiny",
     digits = 2,
     column.sep.width = "-10pt", 
@@ -491,7 +492,8 @@ wfe_regression_data <- data.frame(
     star.cutoffs=c(0.05,0.01,0.001),
     covariate.labels = c("Unemployed", "Lagged Unemployed", "UE:Lagged UE", "Age", "Education", "Member"),
     dep.var.labels = c("trust in government", "statisfaction with democracy", "life satisfaction", "trust in government", "satisfaction with democracy", "life satisfaction"),
-    header = FALSE
+    header = FALSE,
+    order = c(1,2,6,3,4,5)
     )  
 ```
 
