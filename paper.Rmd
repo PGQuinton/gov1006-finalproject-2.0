@@ -1,9 +1,11 @@
 ---
-title: "Unemployment Effects"
+title: "Unemployment Effects: How Multi-Year Periods of Unemployment Influence Feelings Towards the Government"
 subtitle: "GOV 1006: Paper Replication"
 author: "Pieter Quinton"
-date: "4/17/2020"
+date: "5/08/2020"
 abstract: "Bauer (2018) finds that there is no consistent relationship between unemployment and one's trust in government or their satisfaction with democracy. I was able to completely replicate the majority of his findings aside from a summary table of the data. My extension evaluates how consistent or long-term unemployment may impact one's views. Rather than examining the effects of just a single year of unemployment, as Bauer did, I track unemployement trends over longer periods of time to see if extended periods of unemployment have a stronger impact on one's feelings towards the government and its institutions than shorter periods of unemployment do."
+header-includes:
+    - \usepackage{setspace}\doublespacing
 output: 
   bookdown::pdf_document2:
     keep_tex: true
