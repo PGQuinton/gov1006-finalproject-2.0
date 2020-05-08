@@ -11,7 +11,7 @@ output:
     keep_tex: true
     toc: no
 document_class: article
-bibliography: milestone5_bib.bib
+bibliography: bibliography.bib
 mainfont: Wingdings
 sansfont: Wingdings
 fontsize: 12pt
