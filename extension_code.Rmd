@@ -4,7 +4,6 @@ author: "Pieter Quinton"
 date: "4/23/2020"
 output:
   pdf_document: default
-  html_document: default
 ---
 
 ```{r setup, include=FALSE}
