@@ -149,9 +149,10 @@ stargazer(
   out="./replication-table-2.tex",
   header = FALSE,
   summary = FALSE,
-  font.size = "small",
+  font.size = "tiny", 
   column.sep.width = "-7.5pt",
-  title = "Measures across panel waves in the SHP and the LISS"
+  title = "Measures across panel waves in the SHP and the LISS",
+  notes = "\\parbox[t]{15cm}{The above table indicates the years in which data was present for each question on the two surveys. The lines represent years for which we have data. }"
 )
 ```
 

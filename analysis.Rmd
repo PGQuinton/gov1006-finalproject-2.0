@@ -41,6 +41,9 @@ shp <- data.long.shp
 
 
 ```{r extension data}
+# Create the lagged unemployed variable
+# Arrange the panel data by unit and time so the lag command works
+# Did this for both the liss and the shp data
 
 liss <- liss %>%
   group_by(unit) %>%
@@ -60,8 +63,8 @@ shp <- shp %>%
 # SHP
 # I run six regressions
 # Two for each question (trust in government, satisfaction with democracy, and life satisfaction)
-# The first regression is just with unemployed as the indenpendent variable
-# The second regression includes the controls (age, education, and member)
+# The first set of regressions is just with the unemployed and lagged unemployed interaction as the indenpendent variable
+# The second set of regressions includes the controls (age, education, and member)
 # The regression uses a pooling technique (plm) to track observations across units (households) 
 # over time
 
@@ -379,6 +382,13 @@ liss.fit.wfe.control.ls.ext <- wfe(life_satisfaction ~ unemployed * lagged_unemp
 
 
 ```{r stargazer data}
+
+# Because I the wfe regression model does not create an output suitable for stargazer, 
+# Bauer had to input the data manually
+
+# After I added the interaction term the manual entries didn't match the labels so I
+# had to create this new dataframe with added blank rows to get the data to match
+
 wfe_regression_data <- data.frame(
   c1 = as.numeric(summary(shp.fit.wfe.tig.ext)[2]$coefficients[,1]),
   c2 = as.numeric(summary(shp.fit.wfe.swd.ext)[2]$coefficients[,1]),
@@ -415,6 +425,9 @@ wfe_regression_data <- data.frame(
 # I manually pull out the coefficient values from the regressions and add those to the
 # skeleton of the regression that was created above
 # I have to do this for each coefficient, each standard error, and each t and p value
+
+# The data from the regressions without controls are pulled from my datatable (created # above)
+# The data from the regressions with controls are pulled from the regression outputs
 
 # Then I format the stargazer table in the same manner as the previous two
 
